@@ -1,0 +1,313 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.classtune.classtuneapp">
+
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="androidki.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <permission
+        android:name="com.classtune.classtuneapp.schoolapp.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.champs21.schoolapp.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <application
+        android:name="com.classtune.classtuneapp.schoolapp.utils.SchoolApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/icon"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:logo="@drawable/champs_logo"
+        android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+
+        <!-- android:theme="@android:style/Theme.Light.NoTitleBar" > -->
+        <activity
+            android:name="com.classtune.classtuneapp.freeversion.HomePageFreeVersion"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.classtune.classtuneapp.schoolapp.SplashScreenActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.classtune.classtuneapp.schoolapp.LoginActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
+
+
+        <activity
+            android:name="com.classtune.classtuneapp.schoolapp.ChildSelectionActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
+        <activity
+            android:name="com.classtune.classtuneapp.freeversion.RegistrationActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+
+        <activity
+            android:name="com.classtune.classtuneapp.freeversion.CompleteProfileActivityContainer"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
+
+
+
+        <receiver android:name="com.classtune.classtuneapp.schoolapp.utils.MyAlarm" >
+        </receiver>
+        <receiver
+            android:name="com.classtune.classtuneapp.schoolapp.utils.BootBroadcastReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.classtune.classtuneapp.freeversion.InfoActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name="com.classtune.classtuneapp.freeversion.PreferenceSettingsActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
+            android:name="com.classtune.classtuneapp.freeversion.AccountSettingsActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <!--
+          WakefulBroadcastReceiver that will receive intents from GCM
+          services and hand them to the custom IntentService.
+
+          The com.google.android.c2dm.permission.SEND permission is necessary
+          so only GCM services can send data messages for the app.
+
+
+
+        -->
+        <receiver
+            android:name="com.classtune.classtuneapp.schoolapp.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+
+                <!-- Receives the actual messages. -->
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <category android:name="com.champs21.schoolapp" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name="com.classtune.classtuneapp.schoolapp.GcmIntentService" />
+
+        <activity
+            android:name="com.classtune.classtuneapp.freeversion.SchoolCandleSettingActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
+            android:name="com.classtune.classtuneapp.freeversion.AssesmentActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.classtune.classtuneapp.schoolapp.StudentListActivity"
+            android:label="@string/title_activity_student_list" >
+        </activity>
+        <activity
+            android:name="com.classtune.classtuneapp.freeversion.CreateMeetingRequest"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.classtune.classtuneapp.schoolapp.SyllabusActivity"
+            android:label="@string/title_activity_syllabus" >
+        </activity>
+
+        <activity
+            android:name="com.classtune.classtuneapp.schoolapp.StudentInfoActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_student_info" >
+        </activity>
+        <activity
+            android:name="com.classtune.classtuneapp.freeversion.AssessmentSummeryActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="com.classtune.classtuneapp.freeversion.AssessmentLeaderBoardActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity android:name="com.classtune.classtuneapp.freeversion.AssessmentRules"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <service android:name="com.classtune.classtuneapp.schoolapp.NotifyService"/>
+
+        <receiver android:name="com.classtune.classtuneapp.schoolapp.NotifyServiceReceiver"/>
+
+        <activity
+            android:name="com.classtune.classtuneapp.freeversion.AssesmentHomeworkActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity
+            android:name="com.classtune.classtuneapp.freeversion.SingleHomeworkActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name="com.classtune.classtuneapp.freeversion.SingleCalendarEvent"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity
+            android:name="com.classtune.classtuneapp.schoolapp.NotificationActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.classtune.classtuneapp.freeversion.SingleSyllabus"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity
+            android:name="com.classtune.classtuneapp.freeversion.SyllabusMidLayerActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity
+            android:name="com.classtune.classtuneapp.freeversion.SingleExamRoutine"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name="com.classtune.classtuneapp.freeversion.SingleItemTermReportActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.classtune.classtuneapp.freeversion.TeacherHomeworkDoneActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name="com.classtune.classtuneapp.freeversion.SingleTeacherHomeworkActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name="com.classtune.classtuneapp.freeversion.SingleNoticeActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name="com.classtune.classtuneapp.freeversion.AnyFragmentLoadActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name="com.classtune.classtuneapp.freeversion.SingleMeetingRequestActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity
+            android:name="com.classtune.classtuneapp.freeversion.SingleLessonPlan"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity
+            android:name="com.classtune.classtuneapp.freeversion.EditLessonPlanActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity
+            android:name="com.classtune.classtuneapp.freeversion.LessonPlanSubjectDetailsActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+
+        <activity
+            android:name="com.classtune.classtuneapp.schoolapp.classtune.UserSelectionActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name="com.classtune.classtuneapp.schoolapp.classtune.RegistrationFirstPhaseActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name="com.classtune.classtuneapp.schoolapp.classtune.CreateStudentActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name="com.classtune.classtuneapp.schoolapp.classtune.CreateParentActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name="com.classtune.classtuneapp.schoolapp.classtune.CreateTeacherActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.classtune.classtuneapp.schoolapp.classtune.InfoPageMainActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name="com.classtune.classtuneapp.schoolapp.classtune.InfoFeatureActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+
+        <!--<provider android:authorities="com.facebook.app.NativeAppCallContentProvider850059515022967"
+            android:name="com.facebook.NativeAppCallContentProvider"
+            android:exported="true"/>-->
+
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="64b7d5b86f3c2225536b2173e0e3ad9fabb5a1bb" />
+
+    </application>
+
+</manifest>
