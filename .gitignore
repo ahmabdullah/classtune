@@ -6,6 +6,7 @@
 .DS_Store
 /build
 /captures
-
+.idea
 pullToRefreshLibrary/build/
-schoolApp/build
+app/build/
+aFileChooser/build/
