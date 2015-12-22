@@ -35,7 +35,6 @@ import com.classtune.classtuneapp.schoolapp.model.FreeVersionPost.DateFeed;
 import com.classtune.classtuneapp.schoolapp.model.UserAuthListener;
 import com.classtune.classtuneapp.schoolapp.model.Wrapper;
 import com.classtune.classtuneapp.schoolapp.networking.AppRestClient;
-import com.classtune.classtuneapp.schoolapp.utils.AppConstant;
 import com.classtune.classtuneapp.schoolapp.utils.AppUtility;
 import com.classtune.classtuneapp.schoolapp.utils.GsonParser;
 import com.classtune.classtuneapp.schoolapp.utils.RequestKeyHelper;
@@ -47,7 +46,6 @@ import com.classtune.classtuneapp.schoolapp.utils.UserHelper.UserTypeEnum;
 import com.classtune.classtuneapp.schoolapp.viewhelpers.CustomButton;
 import com.classtune.classtuneapp.schoolapp.viewhelpers.PagerContainer;
 import com.classtune.classtuneapp.schoolapp.viewhelpers.PopupDialog;
-import com.classtune.classtuneapp.schoolapp.viewhelpers.ResizableImageView;
 import com.classtune.classtuneapp.schoolapp.viewhelpers.UIHelper;
 import com.classtune.classtuneapp.schoolapp.viewhelpers.UninterceptableViewPager;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -425,6 +423,9 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                                     .findViewById(R.id.sum_tv_leave);
                             holder.meetingStatusText = (TextView) convertView
                                     .findViewById(R.id.sum_tv_meeting);
+                            holder.feesIcon = (ImageView) convertView.findViewById(R.id.summary_tution_icon);
+                            holder.leaveIcon = (ImageView) convertView.findViewById(R.id.summary_leave_icon);
+                            holder.meetingIcon = (ImageView) convertView.findViewById(R.id.summary_meeting_icon);
                         }
                         holder.attendance = (LinearLayout) convertView
                                 .findViewById(R.id.sum_lay_attendance);
@@ -487,6 +488,7 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                             holder.examResultText = (TextView) convertView
                                     .findViewById(R.id.sum_tv_result_pub_text);
                             holder.rpIcon = (ImageView) convertView.findViewById(R.id.summery_result_publish_icon);
+
                             holder.rpGoodLuck = (TextView) convertView.findViewById(R.id.summery_result_publish_good_luck_text);
                             holder.examRoutineText = (TextView) convertView
                                     .findViewById(R.id.sum_tv_exam_routine);
@@ -833,29 +835,45 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                         }
 
                         if (userHelper.getUser().getType() == UserTypeEnum.PARENTS) {
-                            disableBlock(holder.leave, feed.getSummeryLeaves()
-                                    .size() != 0, 14);
-                            disableBlock(holder.tution, feed.isFees(), 15);
-                            disableBlock(holder.meeting, feed.getSummeryMeetings()
-                                    .size() != 0, 11);
-                            if (feed.getSummeryMeetings().size() > 0) {
-                                if (feed.getSummeryMeetings().get(0).getSubject()
-                                        .contains("Accepted"))
-                                    holder.meetingStatusText
-                                            .setText("Accepted. See details.");
-                                else
-                                    holder.meetingStatusText
-                                            .setText("Declined. See details.");
+                            if (isPaid) {
+
+                                holder.leaveIcon.setAlpha(255);
+                                if (feed.getSummeryLeaves().size() != 0) {
+                                    if (feed.getSummeryLeaves().get(0).getSubject()
+                                            .contains("Approved"))
+                                        holder.leaveStatusText
+                                                .setText("Approved. See details.");
+                                    else
+                                        holder.leaveStatusText
+                                                .setText("Declined. See details.");
+                                }
+                            }else {
+                                holder.rpIcon.setAlpha(70);
                             }
-                            if (feed.getSummeryLeaves().size() != 0) {
-                                if (feed.getSummeryLeaves().get(0).getSubject()
-                                        .contains("Approved"))
-                                    holder.leaveStatusText
-                                            .setText("Approved. See details.");
-                                else
-                                    holder.leaveStatusText
-                                            .setText("Declined. See details.");
+                            if(isPaid) {
+                                holder.feesIcon.setAlpha(255);
+                            } else {
+                                holder.feesIcon.setAlpha(70);
                             }
+                            disableBlock(holder.leave, isPaid, 14);
+                            disableBlock(holder.tution, isPaid, 15);
+                            disableBlock(holder.meeting, isPaid, 11);
+                            if(isPaid) {
+                                holder.meetingIcon.setAlpha(255);
+                                if (feed.getSummeryMeetings().size() > 0) {
+                                    if (feed.getSummeryMeetings().get(0).getSubject()
+                                            .contains("Accepted"))
+                                        holder.meetingStatusText
+                                                .setText("Accepted. See details.");
+                                    else
+                                        holder.meetingStatusText
+                                                .setText("Declined. See details.");
+                                }
+                            } else {
+                                holder.meetingIcon.setAlpha(70);
+                            }
+
+
 
                         }
 
@@ -1264,7 +1282,7 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
         TextView sum_tv_subject_name_day2, sum_tv_batch_course2, sum_tv_class_duration2;
         TextView sum_tv_teacher_hw_subject_stat1, sum_tv_teacher_hw_class_section1, sum_tv_teacher_hw_date1;
         TextView sum_tv_teacher_hw_subject_stat2, sum_tv_teacher_hw_class_section2, sum_tv_teacher_hw_date2;
-        ImageView profilePicture, routineIcon,homeworkIcon, rpIcon;
+        ImageView profilePicture, routineIcon,homeworkIcon, rpIcon,leaveIcon, feesIcon, meetingIcon;
         LinearLayout classTomorrow, homework, reusltPublish, routinePublish,
                 eventTomorrow, examTomorrow, notice, quiz;
         RelativeLayout noticeIconLay;

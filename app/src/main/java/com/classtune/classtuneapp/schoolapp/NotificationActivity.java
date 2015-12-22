@@ -69,31 +69,30 @@ public class NotificationActivity extends ChildContainerActivity{
 		setUpList();
 		fetchNotification();
 
-
-        if(getIntent().getExtras()!=null)
+        if(getIntent().getExtras() != null)
         {
             if(getIntent().getExtras().containsKey("total_unread_extras"))
             {
                 String rid = getIntent().getExtras().getBundle("total_unread_extras").getString("rid");
                 String rtype = getIntent().getExtras().getBundle("total_unread_extras").getString("rtype");
-
-
-                GcmIntentService.initApiCall(rid, rtype);
+				GcmIntentService.initApiCall(rid, rtype);
             }
         }
-
 	}
+
 	private void fetchNotification() {
 		RequestParams params = new RequestParams();
 		params.put("user_secret", UserHelper.getUserSecret());
 		params.put(RequestKeyHelper.PAGE_NUMBER, pageNumber + "");
 		params.put(RequestKeyHelper.PAGE_SIZE, pageSize + "");
-		AppRestClient.post(URLHelper.URL_NOTIFICATION, params, new AsyncHttpResponseHandler(){
+		AppRestClient.post(URLHelper.URL_NOTIFICATION, params, new AsyncHttpResponseHandler() {
+
 			@Override
 			public void onStart() { if (pageNumber == 1) {
 					mSpinner.setVisibility(View.VISIBLE);
 				}
 			}
+
 			@Override
 			public void onFailure(Throwable arg0, String responseString) {
 				//super.onFailure(arg0, responseString);
@@ -101,6 +100,7 @@ public class NotificationActivity extends ChildContainerActivity{
 				Toast.makeText(NotificationActivity.this, responseString, Toast.LENGTH_LONG).show();
 				Log.e("Response FAIL", responseString.toString());
 			}
+
 			@Override
 			public void onSuccess(int arg0, String responseString) {
 				//Toast.makeText(NotificationActivity.this, responseString, Toast.LENGTH_LONG).show();
@@ -272,9 +272,7 @@ public class NotificationActivity extends ChildContainerActivity{
 				holder = (ViewHolder) convertView.getTag();
 			}
 			
-			
-			
-			
+
 			holder.txtTitle.setText(list.get(position).getSubject());
 			holder.txtBody.setText(list.get(position).getBody());
 			setImgViewIcon(holder.imgViewIcon, list.get(position).getRtype());
@@ -405,7 +403,6 @@ public class NotificationActivity extends ChildContainerActivity{
 	{
 		int type = Integer.parseInt(rType);
 		Intent intent;
-		
 		switch (type) {
 		case 1:
 			
@@ -798,9 +795,6 @@ public class NotificationActivity extends ChildContainerActivity{
 			else {
 
 			}
-			
-			
-
 		};
 	};
 
@@ -810,7 +804,6 @@ public class NotificationActivity extends ChildContainerActivity{
     public interface INotificationCountChangedFromActivity{
 
         public void onNotificationCountChangedFromActivity(int count);
-
 
     }
 

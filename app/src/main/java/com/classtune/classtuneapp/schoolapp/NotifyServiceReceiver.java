@@ -9,15 +9,9 @@ public class NotifyServiceReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context arg0, Intent arg1) {
-		// TODO Auto-generated method stub
 		Log.e("Broasjgdkashdk", "Yahooooooooooo");
-		
 		
 		Intent service1 = new Intent(arg0, NotifyService.class);
 		arg0.startService(service1);
-		
-		
-		
 	}
-
 }

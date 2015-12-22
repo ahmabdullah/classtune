@@ -1,7 +1,11 @@
 package com.classtune.classtuneapp.schoolapp;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -29,17 +33,16 @@ public class LoginActivity extends SocialBaseActivity implements
 	EditText etPassword;
 	Button btnLogin;
 
-
-
 	private final int DIALOG_FRAGMENT = 101;
 	SchoolApp app;
 	boolean isFirstTime;
 	public UIHelper uiHelper;
 	public UserHelper userHelper;
-	String username = "", password = "";
-    public static int REQUEST_COMPLETE_PROFILE=567;
+	public String username = "", password = "";
+    public static int REQUEST_COMPLETE_PROFILE = 567;
 	
 	private String fromAssessment = "";
+	private static final int MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 125;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +58,7 @@ public class LoginActivity extends SocialBaseActivity implements
 		btnLogin.setOnClickListener(this);
 		app = (SchoolApp) getApplicationContext();
 		app.setupUI(findViewById(R.id.layout_parent), this);
-		
+
 		if(getIntent() != null && getIntent().getExtras() != null)
 			fromAssessment = getIntent().getExtras().getString("assessment_score");
 	}
@@ -79,14 +82,44 @@ public class LoginActivity extends SocialBaseActivity implements
 	}
 
 	private void validateFieldAndCallLogIn() {
-		String userName = etUserName.getText().toString().trim();
-		String password = etPassword.getText().toString().trim();
-		if (TextUtils.isEmpty(userName)) {
+		username = etUserName.getText().toString().trim();
+		password = etPassword.getText().toString().trim();
+
+		if (TextUtils.isEmpty(username)) {
+
 			etUserName.setError("Please enter UserName!!");
 		} else if (TextUtils.isEmpty(password)) {
 			etPassword.setError("Please enter Password!!");
-		} else
-			userHelper.doLogIn(userName, password);
+		} else {
+			if (ContextCompat.checkSelfPermission(LoginActivity.this,
+					Manifest.permission.READ_PHONE_STATE)
+					!= PackageManager.PERMISSION_GRANTED) {
+
+				// Should we show an explanation?
+				if (ActivityCompat.shouldShowRequestPermissionRationale(LoginActivity.this,
+						Manifest.permission.READ_PHONE_STATE)) {
+
+					// Show an expanation to the user *asynchronously* -- don't block
+					// this thread waiting for the user's response! After the user
+					// sees the explanation, try again to request the permission.
+
+				} else {
+
+					// No explanation needed, we can request the permission.
+
+					ActivityCompat.requestPermissions(LoginActivity.this,
+							new String[]{Manifest.permission.READ_PHONE_STATE},
+							MY_PERMISSIONS_REQUEST_READ_PHONE_STATE);
+
+					// MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+					// app-defined int constant. The callback method gets the
+					// result of the request.
+				}
+			}else {
+				userHelper.doLogIn(username, password);
+			}
+		}
+
 	}
 
 	@Override
@@ -95,12 +128,34 @@ public class LoginActivity extends SocialBaseActivity implements
 	}
 
 	@Override
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+		switch (requestCode) {
+			case MY_PERMISSIONS_REQUEST_READ_PHONE_STATE: {
+				// If request is cancelled, the result arrays are empty.
+				if (grantResults.length > 0
+						&& grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+					// permission was granted, yay! Do the
+					// contacts-related task you need to do.
+					userHelper.doLogIn(username, password);
+				} else {
+
+					// permission denied, boo! Disable the
+					// functionality that depends on this permission.
+				}
+				return;
+
+			}
+			// other 'case' lines to check for other
+			// permissions this app might request
+		}
+	}
+
+	@Override
 	public void onAuthenticationSuccessful() {
 
-		
 		if (uiHelper.isDialogActive()) {
 			uiHelper.dismissLoadingDialog();
-			
 		}
 		if (UserHelper.isRegistered()) {
 			if (UserHelper.isLoggedIn()) {
@@ -179,6 +234,7 @@ public class LoginActivity extends SocialBaseActivity implements
         i.putExtra("first_login",true);
         startActivityForResult(i, REQUEST_COMPLETE_PROFILE);
     }
+
     private void doPaidNavigation(){
         switch (userHelper.getUser().getType()) {
 
@@ -209,8 +265,6 @@ public class LoginActivity extends SocialBaseActivity implements
                 finish();
                 break;
         }
-
-
     }
 	@Override
 	public void onAuthenticationFailed(String msg) {

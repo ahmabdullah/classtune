@@ -758,6 +758,7 @@
             android:orientation="horizontal" >
 
             <ImageView
+                android:id="@+id/summary_tution_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/sum_fee" />
@@ -1055,6 +1056,7 @@
             android:visibility="gone" >
 
             <ImageView
+                android:id="@+id/summary_leave_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/sum_leaveapplication" />
@@ -1103,7 +1105,7 @@
             android:visibility="gone" >
 
             <ImageView
-                android:id="@+id/sum_iv_disable"
+                android:id="@+id/summary_meeting_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/sum_meetingrequest" />

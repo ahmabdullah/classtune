@@ -231,8 +231,6 @@ public class SchoolApp extends Application {
 		super.onConfigurationChanged(newConfig);
 	}
 
-	
-	
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
