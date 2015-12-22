@@ -35,15 +35,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.classtune.classtuneapp.R;
 import com.classtune.classtuneapp.freeversion.CompleteProfileActivityContainer;
 import com.classtune.classtuneapp.freeversion.HomePageFreeVersion;
-import com.classtune.classtuneapp.R;
 import com.classtune.classtuneapp.schoolapp.adapters.CropOptionAdapter;
+import com.classtune.classtuneapp.schoolapp.camera.CameraGalleryPicker;
+import com.classtune.classtuneapp.schoolapp.camera.IPictureCallback;
 import com.classtune.classtuneapp.schoolapp.fragments.AlbumStorageDirFactory;
 import com.classtune.classtuneapp.schoolapp.fragments.BaseAlbumDirFactory;
 import com.classtune.classtuneapp.schoolapp.fragments.FroyoAlbumDirFactory;
 import com.classtune.classtuneapp.schoolapp.fragments.UserTypeSelectionDialog;
-import com.classtune.classtuneapp.schoolapp.model.Batch;
 import com.classtune.classtuneapp.schoolapp.model.CropOption;
 import com.classtune.classtuneapp.schoolapp.model.TeacherInfo;
 import com.classtune.classtuneapp.schoolapp.model.UserAuthListener;
@@ -78,7 +79,7 @@ import java.util.List;
 /**
  * Created by BLACK HAT on 12-Nov-15.
  */
-public class CreateTeacherActivity extends FragmentActivity implements UserAuthListener{
+public class CreateTeacherActivity extends FragmentActivity implements UserAuthListener, IPictureCallback {
 
     private UIHelper uiHelper;
 
@@ -113,13 +114,13 @@ public class CreateTeacherActivity extends FragmentActivity implements UserAuthL
     private Spinner spinnerGrade;
 
     private DatePicker pickerJoiningDate;
-    private Spinner spinnerBatch;
+    //private Spinner spinnerBatch;
 
 
     private String dateJoining = "";
 
-    private List<Batch> listBatch;
-    private String batchId = "";
+    //private List<Batch> listBatch;
+    //private String batchId = "";
     private List<String> listGender;
 
     private List<TeacherInfo> listTeacherInfoGrade;
@@ -153,23 +154,14 @@ public class CreateTeacherActivity extends FragmentActivity implements UserAuthL
 
     //upload photo
     private RelativeLayout layoutUploadPhoto;
-
-    private final int REQUEST_CODE_CAMERA = 110;
-    private final int REQUEST_CODE_GELLERY = 111;
-    private final int REQUEST_CODE_CROP = 112;
-    private Uri uri = null;
-    private static File schoolDirectory = null;
-    private AlbumStorageDirFactory mAlbumStorageDirFactory = null;
-    private String mCurrentPhotoPath;
-    private static final String JPEG_FILE_PREFIX = "IMG_";
-    private static final String JPEG_FILE_SUFFIX = ".jpg";
-
     private LinearLayout imageNameContainer;
     private TextView tvImageName;
     private String selectedImagePath = "";
     private ImageView btn_cross_image;
-
     private TextView txtUploadPhoto;
+
+    private CameraGalleryPicker mCameraGalleryPicker;
+    private File mCameraGalleryFile;
 
 
     @Override
@@ -198,7 +190,6 @@ public class CreateTeacherActivity extends FragmentActivity implements UserAuthL
         Log.e("ORDINAL AND SCHOOL ID", "ordinal: " + ordinal + " school id: " + schoolId);
 
 
-        listBatch = new ArrayList<Batch>();
 
         listTeacherInfoGrade = new ArrayList<TeacherInfo>();
         listTeacherInfoDepartment = new ArrayList<TeacherInfo>();
@@ -208,20 +199,12 @@ public class CreateTeacherActivity extends FragmentActivity implements UserAuthL
         initView();
         setUpActionBar();
         initAction();
-        initApiGetBatch();
         initApiGetTeacherInfo();
 
-        schoolDirectory = new File(this.getFilesDir().getPath()
-                + "/classtune");
-        schoolDirectory.mkdirs(); // create folders where write files
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
-            mAlbumStorageDirFactory = new FroyoAlbumDirFactory();
-        } else {
-            mAlbumStorageDirFactory = new BaseAlbumDirFactory();
-        }
 
         updateImagenamePanel(false);
+
+        mCameraGalleryPicker = new CameraGalleryPicker(this, this);
 
     }
 
@@ -240,7 +223,6 @@ public class CreateTeacherActivity extends FragmentActivity implements UserAuthL
         spinnerGrade = (Spinner)this.findViewById(R.id.spinnerGrade);
 
         pickerJoiningDate = (DatePicker)this.findViewById(R.id.pickerJoiningDate);
-        spinnerBatch = (Spinner)this.findViewById(R.id.spinnerBatch);
 
 
         txtDob = (TextView)this.findViewById(R.id.txtDob);
@@ -468,109 +450,6 @@ public class CreateTeacherActivity extends FragmentActivity implements UserAuthL
     };
 
 
-
-    private void initBatchSpinner()
-    {
-        final SpinnerBatchAdapter adapter = new SpinnerBatchAdapter(this, android.R.layout.simple_spinner_item, listBatch);
-        adapter.notifyDataSetChanged();
-        spinnerBatch.setAdapter(adapter);
-
-        spinnerBatch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                Batch batch = adapter.getItem(position);
-                batchId = batch.getId();
-                Log.e("Spinner batch click", "id is: " + batchId + " name is: " + batch.getName());
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }
-
-
-    private void initApiGetBatch()
-    {
-        RequestParams params = new RequestParams();
-
-        params.put("school_code", schoolCode);
-
-        AppRestClient.post(URLHelper.URL_PAID_BATCH, params, batchHandler);
-    }
-
-    AsyncHttpResponseHandler batchHandler = new AsyncHttpResponseHandler() {
-
-        @Override
-        public void onFailure(Throwable arg0, String arg1) {
-            uiHelper.showMessage(arg1);
-            if (uiHelper.isDialogActive()) {
-                uiHelper.dismissLoadingDialog();
-            }
-        };
-
-        @Override
-        public void onStart() {
-
-            uiHelper.showLoadingDialog("Please wait...");
-
-
-        };
-
-        @Override
-        public void onSuccess(int arg0, String responseString) {
-
-            Log.e("SCCCCC", "response: " + responseString);
-
-            uiHelper.dismissLoadingDialog();
-
-            listBatch.clear();
-
-
-            Wrapper modelContainer = GsonParser.getInstance()
-                    .parseServerResponse(responseString);
-
-            if (modelContainer.getStatus().getCode() == 200) {
-
-                Log.e("CODE 200", "code 200");
-                JsonArray arrayBatch = modelContainer.getData().get("batches").getAsJsonArray();
-                for (int i = 0; i < parseBatch(arrayBatch.toString()).size(); i++)
-                {
-                    listBatch.add(parseBatch(arrayBatch.toString()).get(i));
-                }
-
-                initBatchSpinner();
-
-
-            }
-
-            else if(modelContainer.getStatus().getCode() == 401)
-            {
-                uiHelper.showErrorDialog(AppConstant.CLASSTUNE_MESSAGE_CLASS_YET);
-            }
-
-            else if(modelContainer.getStatus().getCode() == 400)
-            {
-                uiHelper.showErrorDialog(AppConstant.CLASSTUNE_MESSAGE_SOMETHING_WENT_WRONG);
-            }
-
-            else {
-
-            }
-
-
-
-        };
-    };
-
-    private ArrayList<Batch> parseBatch(String object) {
-        ArrayList<Batch> data = new ArrayList<Batch>();
-        data = new Gson().fromJson(object, new TypeToken<ArrayList<Batch>>() {}.getType());
-        return data;
-    }
 
 
     private void initTeacherInfoSpiners()
@@ -935,13 +814,6 @@ public class CreateTeacherActivity extends FragmentActivity implements UserAuthL
             isValid = false;
         }
 
-        else if(batchId.matches(""))
-        {
-            uiHelper.showErrorDialog(AppConstant.CLASSTUNE_MESSAGE_BATCH_SELECT);
-            isValid = false;
-        }
-
-
         return isValid;
     }
 
@@ -966,10 +838,10 @@ public class CreateTeacherActivity extends FragmentActivity implements UserAuthL
         params.put("employee_department_id", selectedDepartment);
         params.put("employee_grade_id", selectedGrade);
         params.put("joining_date", dateJoining);
-        params.put("batch_id", batchId);
+        //params.put("batch_id", batchId);
 
 
-        if(!selectedImagePath.equalsIgnoreCase(""))
+        /*if(!selectedImagePath.equalsIgnoreCase(""))
         {
             File myImage = new File(selectedImagePath);
             try {
@@ -977,6 +849,16 @@ public class CreateTeacherActivity extends FragmentActivity implements UserAuthL
 
                 Log.e("IMG_FILE", "is: " + myImage);
             } catch(FileNotFoundException e) {}
+        }*/
+
+        if(!selectedImagePath.equalsIgnoreCase(""))
+        {
+
+            try {
+                params.put(RequestKeyHelper.PROFILE_IMAGE, mCameraGalleryFile);
+
+                Log.e("IMG_FILE", "is: " + mCameraGalleryFile);
+            }catch(FileNotFoundException e) {}
         }
 
 
@@ -1066,7 +948,8 @@ public class CreateTeacherActivity extends FragmentActivity implements UserAuthL
 								startActivityForResult(Intent.createChooser(intent, "Select Picture"),
 										1);*/
 
-                                dispatchOpenGelleryApp();
+                                //dispatchOpenGelleryApp();
+                                mCameraGalleryPicker.openGallery();
 
                             }
                         })
@@ -1079,11 +962,13 @@ public class CreateTeacherActivity extends FragmentActivity implements UserAuthL
                                 // TODO Auto-generated method stub
                                 dialog.dismiss();
 
-                                dispatchTakePictureIntent();
+                                //dispatchTakePictureIntent();
 
 								/*Intent takePicture = new Intent(
 										MediaStore.ACTION_IMAGE_CAPTURE);
 								startActivityForResult(takePicture, 0);*/
+
+                                mCameraGalleryPicker.openCamere();
                             }
                         });
 
@@ -1092,100 +977,6 @@ public class CreateTeacherActivity extends FragmentActivity implements UserAuthL
 
         alertDialog.show();
 
-    }
-
-    public void dispatchOpenGelleryApp() {
-
-        if (Build.VERSION.SDK_INT <19){
-            Intent intent = new Intent();
-            intent.setType("image/jpeg");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"),
-                    REQUEST_CODE_GELLERY);
-        } else {
-            Intent intent = new Intent(Intent.ACTION_PICK);
-            intent.setType("*/*");
-            intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT,
-                    uri);
-            startActivityForResult(Intent.createChooser(intent, "Complete action using"), REQUEST_CODE_GELLERY);
-
-        }
-
-    }
-
-    public void dispatchTakePictureIntent() {
-
-        PackageManager pm = getPackageManager();
-        if (pm.hasSystemFeature(PackageManager.FEATURE_CAMERA) == false) {
-            Toast.makeText(CreateTeacherActivity.this, "Camera Nnot found!", Toast.LENGTH_SHORT)
-                    .show();
-            return;
-        }
-
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File f = null;
-
-        try {
-            f = setUpPhotoFile();
-            mCurrentPhotoPath = f.getAbsolutePath();
-            takePictureIntent
-                    .putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            f = null;
-            mCurrentPhotoPath = null;
-        }
-
-        startActivityForResult(takePictureIntent, REQUEST_CODE_CAMERA);
-    }
-
-    private File setUpPhotoFile() throws IOException {
-
-        File f = createImageFile();
-        mCurrentPhotoPath = f.getAbsolutePath();
-        // Uri.fromFile(f);
-        return f;
-    }
-
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
-                .format(new Date());
-        String imageFileName = JPEG_FILE_PREFIX + timeStamp + "_";
-        File albumF = getAlbumDir();
-        File imageF = File.createTempFile(imageFileName, JPEG_FILE_SUFFIX,
-                albumF);
-        return imageF;
-    }
-
-    private File getAlbumDir() {
-        File storageDir = null;
-        if (Environment.MEDIA_MOUNTED.equals(Environment
-                .getExternalStorageState())) {
-
-            storageDir = mAlbumStorageDirFactory
-                    .getAlbumStorageDir(getAlbumName());
-
-            if (storageDir != null) {
-                if (!storageDir.mkdirs()) {
-                    if (!storageDir.exists()) {
-                        Log.d("CameraSample", "failed to create directory");
-                        return null;
-                    }
-                }
-            }
-
-        } else {
-            Log.v(getString(R.string.app_name),
-                    "External storage is not mounted READ/WRITE.");
-        }
-
-        return storageDir;
-    }
-
-    public String getAlbumName() {
-        return getString(R.string.album_name_classtune);
     }
 
 
@@ -1211,278 +1002,11 @@ public class CreateTeacherActivity extends FragmentActivity implements UserAuthL
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case REQUEST_CODE_CAMERA:
-                if (resultCode == this.RESULT_OK) {
-                    // Log.e("addAdvertiseController.mCurrentPhotoPath",""+addAdvertiseController.mCurrentPhotoPath);
-                    dispatchCropIntent(Uri.fromFile(new File(mCurrentPhotoPath)));
-                }
-                if (resultCode == this.RESULT_CANCELED) {
-                    return;
-                }
-                break;
-            case REQUEST_CODE_GELLERY:
-                if (resultCode == this.RESULT_OK) {
-                    // addAdvertiseController.mCurrentPhotoPath=getFilePath(data.getData());
-                    // Log.e("addAdvertiseController.mCurrentPhotoPath2",""+addAdvertiseController.mCurrentPhotoPath);
-                    dispatchCropIntent(data.getData());
-                }
-                if (resultCode == this.RESULT_CANCELED) {
-                    return;
-                }
-                break;
 
-            case REQUEST_CODE_CROP:
-                if (resultCode == this.RESULT_OK) {
-                    // Log.e("addAdvertiseController.mCurrentPhotoPath3",""+addAdvertiseController.mCurrentPhotoPath);
-                    File file = new File(mCurrentPhotoPath);
-                    Log.e("Normal file size:", "Image size before compress:"
-                            + (file.length() / 1024) + "");
-				/*
-				 * if((file.length()/1024)<300) { AlertDialog_big_image_size();
-				 * } else {
-				 */
-                    handleBigCameraPhoto(false,
-                            Uri.fromFile(new File(mCurrentPhotoPath)));
-                    // }
-                }
-
-                if (resultCode == this.RESULT_CANCELED) {
-                    return;
-                }
-                break;
-
-
-        }
         super.onActivityResult(requestCode, resultCode, data);
+        mCameraGalleryPicker.activityResult(requestCode, resultCode, data);
     }
 
-    private void dispatchCropIntent(Uri uriParam) {
-
-        uri = uriParam;
-        final ArrayList<CropOption> cropOptions = new ArrayList<CropOption>();
-
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setType("image/*");
-
-        List<ResolveInfo> list = this.getPackageManager()
-                .queryIntentActivities(intent, 0);
-
-        int size = list.size();
-        if (size == 0) {
-            // Toast.makeText(this, "Can not find image crop app",
-            // Toast.LENGTH_SHORT).show();
-            handleBigCameraPhoto(true, uriParam);
-            return;
-        } else {
-            intent.setData(uri);
-            int height = AppUtility.getImageViewerImageHeight(this);
-            intent.putExtra("outputX", 600);
-            intent.putExtra("outputY", 600);
-            intent.putExtra("aspectX", 1);
-            intent.putExtra("aspectY", 1);
-            intent.putExtra("scale", true);
-            intent.putExtra("return-data", false);
-            intent.putExtra("noFaceDetection", true);
-
-            File f = null;
-            try {
-                f = setUpPhotoFile();
-                mCurrentPhotoPath = f.getAbsolutePath();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                f = null;
-                mCurrentPhotoPath = null;
-            }
-            intent.putExtra("output", Uri.fromFile(f));
-
-            if (size == 1) {
-                Intent i = new Intent(intent);
-                ResolveInfo res = list.get(0);
-
-                i.setComponent(new ComponentName(res.activityInfo.packageName,
-                        res.activityInfo.name));
-
-                startActivityForResult(i, REQUEST_CODE_CROP);
-            } else {
-                for (ResolveInfo res : list) {
-                    final CropOption co = new CropOption();
-
-                    co.title = this.getPackageManager()
-                            .getApplicationLabel(
-                                    res.activityInfo.applicationInfo);
-                    co.icon = this.getPackageManager()
-                            .getApplicationIcon(
-                                    res.activityInfo.applicationInfo);
-                    co.appIntent = new Intent(intent);
-
-                    co.appIntent
-                            .setComponent(new ComponentName(
-                                    res.activityInfo.packageName,
-                                    res.activityInfo.name));
-
-                    cropOptions.add(co);
-                }
-
-                CropOptionAdapter adapter = new CropOptionAdapter(this
-                        .getApplicationContext(), cropOptions);
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(
-                        this);
-                builder.setTitle("Choose Crop App");
-                builder.setAdapter(adapter,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int item) {
-                                startActivityForResult(
-                                        cropOptions.get(item).appIntent,
-                                        REQUEST_CODE_CROP);
-                            }
-                        });
-
-                builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-
-                        if (uri != null) {
-                            CreateTeacherActivity.this.getContentResolver().delete(uri,
-                                    null, null);
-                            uri = null;
-                        }
-                    }
-                });
-
-                AlertDialog alert = builder.create();
-
-                alert.show();
-            }
-        }
-    }
-
-    private void handleBigCameraPhoto(boolean resizeFlag, Uri uriParam) {
-
-        if (uriParam != null) {
-            setPic(resizeFlag, uriParam);
-            selectedImagePath = mCurrentPhotoPath;
-            updateImagenamePanel(true);
-            // galleryAddPic();
-            mCurrentPhotoPath = null;
-        }
-
-    }
-
-    private void setPic(boolean resizeFlag, Uri uriParam) {
-
-		/* There isn't enough memory to open up more than a couple camera photos */
-		/* So pre-scale the target bitmap into which the file is decoded */
-
-		/* Get the size of the image */
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = true;
-
-        ContentResolver res = this.getContentResolver();
-        Bitmap bitmap = null;
-        InputStream is = null;
-        try {
-            is = res.openInputStream(uriParam);
-            if (resizeFlag == true) {
-                bitmap = BitmapFactory.decodeStream(is, null, bmOptions);
-
-            } else {
-                bitmap = BitmapFactory.decodeStream(is);
-            }
-            is.close();
-        } catch (FileNotFoundException e1) {
-
-            e1.printStackTrace();
-        } catch (IOException e) {
-
-            e.printStackTrace();
-        }
-
-		/* Figure out which way needs to be reduced less */
-		/* Get the size of the ImageView */
-		/*
-		 * int targetW = mImageView.getWidth(); int targetH =
-		 * mImageView.getHeight();
-		 */
-        if (resizeFlag) {
-            int photoW = bmOptions.outWidth;
-            int photoH = bmOptions.outHeight;
-            int value = AppUtility.getImageViewerImageHeight(this);
-            int targetW = value;
-            int targetH = value;
-
-            int scaleFactor = 1;
-            if ((targetW > 0) || (targetH > 0)) {
-                scaleFactor = Math.min(photoW / targetW, photoH / targetH);
-            }
-
-			/* Set bitmap options to scale the image decode target */
-            bmOptions.inJustDecodeBounds = false;
-            bmOptions.inSampleSize = scaleFactor;
-            bmOptions.inPurgeable = true;
-
-			/* Decode the JPEG file into a Bitmap */
-            try {
-                is = res.openInputStream(uriParam);
-                bitmap = BitmapFactory.decodeStream(is, null, bmOptions);
-                is.close();
-            } catch (FileNotFoundException e) {
-
-                e.printStackTrace();
-            } catch (IOException e) {
-
-                e.printStackTrace();
-            }
-        }
-        // force orientation to portrait
-        if (bitmap.getWidth() > bitmap.getHeight()) {
-            Matrix matrix = new Matrix();
-            matrix.postRotate(90);
-            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
-                    bitmap.getHeight(), matrix, true);
-        }
-        // Log.e("Aise", "Aise");
-
-        // File file = new File(addAdvertiseController.mCurrentPhotoPath);
-        // Log.e("Normal file size:", file.length() + "");
-        // Toast.makeText(AddAdvertiseActivity.this, file.length()+"",
-        // Toast.LENGTH_SHORT).show();
-
-        FileOutputStream fOut = null;
-        try {
-            long timestamp = System.currentTimeMillis();
-            File ezpsaImageFile = new File(schoolDirectory,
-                    getString(R.string.album_name_classtune) + timestamp + ".png");
-
-            fOut = new FileOutputStream(ezpsaImageFile);
-
-            int quality = 40;
-            int increament = 10;
-            int maxFileSize = 100 * 1024;
-            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, fOut);
-
-            while (ezpsaImageFile.length() > maxFileSize) {
-                quality += increament;
-                bitmap.compress(Bitmap.CompressFormat.JPEG, quality, fOut);
-            }
-
-            // Log.e("Compressed file size:", file.length() + "");
-
-            // Toast.makeText(AddAdvertiseActivity.this, file.length()+"",
-            // Toast.LENGTH_SHORT).show();
-            fOut.flush();
-            fOut.close();
-            // b.recycle();
-            bitmap.recycle();
-            mCurrentPhotoPath = ezpsaImageFile.getPath();
-
-        } catch (Exception e) { // TODO
-            e.printStackTrace();
-        }
-
-    }
 
     @Override
     public void onAuthenticationStart() {
@@ -1551,5 +1075,12 @@ public class CreateTeacherActivity extends FragmentActivity implements UserAuthL
 
     }
 
+    @Override
+    public void onPicturetaken(File path) {
 
+        mCameraGalleryFile = path;
+        selectedImagePath = mCameraGalleryFile.getAbsolutePath();
+
+        updateImagenamePanel(true);
+    }
 }

@@ -827,7 +827,7 @@ public class HomePageFreeVersion extends HomeContainerActivity {
                 Secure.ANDROID_ID);
         RequestParams params = new RequestParams();
         params.put("gcm_id", regid);
-        params.put("device_id", deviceId);
+        params.put("device_id", deviceId + "classtune");
         AppRestClient.post(URLHelper.URL_GCM_REGISTER, params,
                 serverResponseHandler);
 
