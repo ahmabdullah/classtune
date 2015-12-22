@@ -59,14 +59,30 @@
                     android:layout_height="50dp" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/summary_student_text_name"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="My "
-                android:textColor="@color/gray_1"
-                android:textSize="14sp" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/summary_student_parent_of_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Parent of"
+                    android:textColor="@color/gray_1"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:id="@+id/summary_student_text_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="My "
+                    android:textColor="@color/gray_1"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
 
         </LinearLayout>
 

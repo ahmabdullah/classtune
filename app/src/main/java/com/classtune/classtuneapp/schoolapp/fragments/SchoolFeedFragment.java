@@ -121,15 +121,16 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
     private void loadDataInToList() {
         if (AppUtility.isInternetConnected()) {
             processFetchPost(URLHelper.URL_FREE_VERSION_CATEGORY, "");
-        } else
+        } else {
             uiHelper.showMessage(getActivity().getString(
                     R.string.internet_error_text));
+        }
+
     }
 
     private void setUpList() {
         initializePageing();
         listGoodread.setMode(Mode.PULL_FROM_END);
-        // Set a listener to be invoked when the list should be refreshed.
         listGoodread.setOnRefreshListener(new OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -138,7 +139,6 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                                 | DateUtils.FORMAT_SHOW_DATE
                                 | DateUtils.FORMAT_ABBREV_ALL);
 
-                // Update the LastUpdatedLabel
                 refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
 
                 Mode m = listGoodread.getCurrentMode();
@@ -165,7 +165,6 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
     private void processFetchPost(String url, String categoryIndex) {
 
         RequestParams params = new RequestParams();
-
         params.put(RequestKeyHelper.PAGE_NUMBER, pageNumber + "");
         params.put(RequestKeyHelper.PAGE_SIZE, pageSize + "");
         params.put(RequestKeyHelper.SCHOOL_ID, getArguments().getInt("school_id") + "");
@@ -383,11 +382,10 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
 
         @Override
         public int getItemViewType(int position) {
-            if (mSeparatorSet.contains(position))
+            if (mSeparatorSet.contains(position)) {
                 return TYPE_SUMMERY;
-
+            }
             return TYPE_ITEM;
-
         }
 
         @Override
@@ -441,7 +439,7 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                         holder.eventText = (TextView) convertView
                                 .findViewById(R.id.sum_tv_event);
                         holder.studentNameHeader = (TextView) convertView.findViewById(R.id.summary_student_text_name);
-
+                        holder.parentOfLabel = (TextView) convertView.findViewById(R.id.summary_student_parent_of_label);
                         holder.eventIcon = (ImageView) convertView.findViewById(R.id.summary_event_icon);
                         holder.todayTextView = (TextView) convertView
                                 .findViewById(R.id.sum_tv_today);
@@ -640,22 +638,30 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
             holder.profilePicture.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     if (userHelper.getUser().getType() != UserTypeEnum.TEACHER)
                     {
                         Intent intent = new Intent(getActivity(), StudentInfoActivity.class);
                         intent.putExtra("key_from_feed", 1);
                         startActivity(intent);
                     }
+                }
+            });
 
-
+            holder.studentNameHeader.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (userHelper.getUser().getType() != UserTypeEnum.TEACHER)
+                    {
+                        Intent intent = new Intent(getActivity(), StudentInfoActivity.class);
+                        intent.putExtra("key_from_feed", 1);
+                        startActivity(intent);
+                    }
                 }
             });
 
 
             if (list.size() > 0) {
-
-                switch (type) {
+               switch (type) {
                     case TYPE_SUMMERY:
                         FreeVersionPost summary = list.get(position);
                         DateFeed feed = summary.getDateFeeds().get(
@@ -675,8 +681,8 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                             holder.todayTextView.setText(summary.getLast_visited().getNumber());
                         }
 
-
                         if (userHelper.getUser().getType() == UserTypeEnum.TEACHER) {
+                            holder.studentNameHeader.setText(userHelper.getUser().getFullName());
                             disableBlock(holder.meeting, feed.isMeetingTomorrow(), 9);
                             if (feed.getNextClasses().size() == 0) {
                                 holder.nextClasses.setVisibility(View.GONE);
@@ -835,17 +841,19 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                         }
 
                         if (userHelper.getUser().getType() == UserTypeEnum.PARENTS) {
+                            holder.parentOfLabel.setVisibility(View.VISIBLE);
                             if (isPaid) {
 
                                 holder.leaveIcon.setAlpha(255);
                                 if (feed.getSummeryLeaves().size() != 0) {
                                     if (feed.getSummeryLeaves().get(0).getSubject()
-                                            .contains("Approved"))
+                                            .contains("Approved")) {
                                         holder.leaveStatusText
                                                 .setText("Approved. See details.");
-                                    else
+                                    } else {
                                         holder.leaveStatusText
                                                 .setText("Declined. See details.");
+                                    }
                                 }
                             }else {
                                 holder.rpIcon.setAlpha(70);
@@ -901,10 +909,19 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                             SchoolApp.getInstance().displayUniversalImage(
                                     summary.getSchool_picture(),
                                     holder.schoolPicture);*/
-                        if (!TextUtils.isEmpty(summary.getProfile_picture()))
-                            SchoolApp.getInstance().displayUniversalImage(
-                                    summary.getProfile_picture(),
-                                    holder.profilePicture);
+                        if (!TextUtils.isEmpty(summary.getProfile_picture())) {
+                            if(userHelper.getUser().getType() == UserTypeEnum.PARENTS) {
+                                SchoolApp.getInstance().displayUniversalImage(
+                                        userHelper.getUser().getSelectedChild().getProfile_image(),
+                                        holder.profilePicture);
+                            } else {
+                                SchoolApp.getInstance().displayUniversalImage(
+                                        summary.getProfile_picture(),
+                                        holder.profilePicture);
+                            }
+
+                        }
+
                         for (int k = 0; k < 6; k++) {
                             holder.linearLayoutArray[k].setTag(k + "");
                             holder.linearLayoutArray[k]
@@ -1198,8 +1215,6 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
             // uiHelper.showLoadingDialog("Please wait...");
         }
 
-        ;
-
         public void onFailure(Throwable arg0, String arg1) {
             uiHelper.showMessage(arg1);
             if (uiHelper.isDialogActive()) {
@@ -1208,7 +1223,6 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
             Log.e("WOW HOYNAI", "HEHEHEHE" + arg1);
         }
 
-        ;
 
         public void onSuccess(int arg0, String responseString) {
             if (uiHelper.isDialogActive()) {
@@ -1226,7 +1240,6 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
             }
         }
 
-        ;
     };
 
     AsyncHttpResponseHandler readLaterHandler = new AsyncHttpResponseHandler() {
@@ -1234,7 +1247,6 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
             uiHelper.showLoadingDialog("Please wait...");
         }
 
-        ;
 
         public void onFailure(Throwable arg0, String arg1) {
             uiHelper.showMessage(arg1);
@@ -1256,7 +1268,6 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
             }
         }
 
-        ;
     };
 
     class ViewHolder {
@@ -1296,12 +1307,11 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
         LinearLayout[] linearLayoutArray = new LinearLayout[6];
 
         ImageView eventIcon;
-        TextView studentNameHeader;
+        TextView studentNameHeader, parentOfLabel;
         public ImageView attendacneIcon;
     }
 
     private class ImagePagerAdapter extends PagerAdapter {
-
         private List<String> images;
         private LayoutInflater inflater;
 
