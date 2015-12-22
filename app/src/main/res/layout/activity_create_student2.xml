@@ -32,7 +32,7 @@
                     android:textSize="22sp"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"
-                    android:text="Your user id is: "/>
+                    android:text="@string/classtune_registration_student_user_id"/>
 
                 <TextView
                     android:id="@+id/txtUserId"
@@ -61,7 +61,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Enter admission number"
+                    android:text="@string/classtune_registration_student_admission_number_title"
                     android:id="@+id/textView12"
                     android:textColor="@android:color/black"
                     android:textStyle="bold"
@@ -80,7 +80,7 @@
                     android:padding="10dp"
                     android:background="#dfe1e2"
                     android:gravity="center"
-                    android:hint="Enter admission number here"
+                    android:hint="@string/classtune_registration_student_admission_number"
                     android:layout_below="@+id/textView12" />
 
             </RelativeLayout>
@@ -400,7 +400,7 @@
                                 android:layout_alignParentRight="true"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentTop="true"
-                                android:text="Tap here to \r\nselect date of birth"
+                                android:text="@string/classtune_registration_student_dob"
                                 android:background="@android:color/transparent"
                                 android:imeOptions="actionNext"
                                 android:nextFocusDown="@+id/txtEmail"
@@ -478,7 +478,7 @@
                                 android:layout_alignParentRight="true"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentTop="true"
-                                android:hint="Tap here to \r\ntype contact number"
+                                android:hint="@string/classtune_registration_student_contact"
                                 android:background="@android:color/transparent"
                                 android:imeOptions="actionDone"
                                 android:nextFocusDown="@+id/txtRetypePassword"
@@ -504,7 +504,7 @@
                                 android:id="@+id/txtUploadPhoto"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Tap to upload a photo"
+                                android:text="@string/classtune_registration_student_upload_photo"
                                 android:textColor="@android:color/black"
                                 android:textSize="18sp"
                                 android:gravity="center"/>

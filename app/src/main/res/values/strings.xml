@@ -719,10 +719,32 @@ Get updates on recent on goings and feeds from your school teachers.</string>
 
     <string name="album_name_classtune">classtune</string>
 
-    <string name="spinner_prompt_select_batch">Select a batch</string>
-    <string name="spinner_prompt_select_gender">Select gender</string>
-    <string name="spinner_prompt_select_category">Select a category</string>
-    <string name="spinner_prompt_select_department">Select a department</string>
-    <string name="spinner_prompt_select_grade">Select a grade</string>
-    <string name="spinner_prompt_select_position">Select a position</string>
+    <string name="spinner_prompt_select_batch">Select Batch</string>
+    <string name="spinner_prompt_select_gender">Select Gender</string>
+    <string name="spinner_prompt_select_category">Select Job Category</string>
+    <string name="spinner_prompt_select_department">Select Department</string>
+    <string name="spinner_prompt_select_grade">Select Grade (Optional)</string>
+    <string name="spinner_prompt_select_position">Select your Position</string>
+
+    <string name="classtune_registration_write_here">Write here</string>
+    <string name="classtune_registration_email_address">Enter valid\nemail address</string>
+    <string name="classtune_registration_character_length">Must be at least\n6 characters</string>
+    <string name="classtune_registration_retype_password">Confirm password</string>
+    <string name="classtune_registration_school_code">Collect code\nfrom school</string>
+
+    <string name="classtune_registration_student_user_id">Your User ID: </string>
+    <string name="classtune_registration_student_admission_number_title">Admission no./User ID</string>
+    <string name="classtune_registration_student_admission_number">Enter Admission no./User ID</string>
+    <string name="classtune_registration_student_dob">Select Date of Birth</string>
+    <string name="classtune_registration_student_contact">Write with country code</string>
+    <string name="classtune_registration_student_upload_photo">Upload Photo</string>
+
+    <string name="classtune_registration_parent_user_id">Set user ID</string>
+    <string name="classtune_registration_parent_add_student">Add Student</string>
+
+    <string name="classtune_registration_teacher_employee_number_title">Employee no./User ID</string>
+    <string name="classtune_registration_teacher_employee_number">Enter Employee no./User ID</string>
+    <string name="classtune_registration_teacher_job_title">Write Job Title</string>
+    <string name="classtune_registration_teacher_joining_date">Select your Joining Date</string>
+    <string name="classtune_registration_teacher_position_title">Select Job Category first</string>
 </resources>
