@@ -57,12 +57,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:hint="username"
+                android:hint="Username"
                 android:imeOptions="actionNext"
                 android:includeFontPadding="true"
                 android:padding="5dp"
                 android:singleLine="true"
-                android:textColorHint="@color/hint_color"
+                android:textColorHint="@color/gray_4"
                 android:textSize="15sp">
 
                 <requestFocus />
@@ -97,7 +97,7 @@
                 android:inputType="textPassword"
                 android:padding="5dip"
                 android:singleLine="true"
-                android:textColorHint="@color/hint_color"
+                android:textColorHint="@color/gray_4"
                 android:textSize="15sp" />
         </LinearLayout>
 
@@ -116,6 +116,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:visibility="gone"
             android:layout_marginTop="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

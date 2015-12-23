@@ -56,7 +56,8 @@
                 <ImageView
                     android:id="@+id/sum_iv_profile_photo"
                     android:layout_width="50dp"
-                    android:layout_height="50dp" />
+                    android:layout_height="50dp"
+                    android:src="@drawable/user_avatar"/>
             </LinearLayout>
 
             <LinearLayout
@@ -80,7 +81,8 @@
                     android:layout_height="wrap_content"
                     android:text="My "
                     android:textColor="@color/gray_1"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
             </LinearLayout>
 
 
@@ -507,7 +509,7 @@
         </LinearLayout>
         <LinearLayout
             android:id="@+id/sum_lay_add_quiz"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
@@ -701,14 +703,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="Tomorrow&apos;s Classes"
+                android:text="Classes Tomorrow"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/sum_lay_homework"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -740,7 +742,7 @@
                 android:id="@+id/summery_homework_text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tomorrow&apos;s"
+                android:text=""
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
@@ -749,7 +751,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="Homework"
+                android:text="Homework Tomorrow"
                 android:textColor="@color/classtune_green_color"
                 android:textSize="22sp" />
         </LinearLayout>
@@ -794,7 +796,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pay your"
+                    android:text="Check for"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -833,7 +835,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="You have new QUIZ. Check it now."
+                android:text="Online Assessment"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -874,9 +876,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="You have a notice.\nYour attention is required"
+            android:text="Notice"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="18sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -906,9 +908,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="You have a new event tomorrow."
+            android:text="Events Update"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="18sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -999,7 +1001,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="Exam Routine Published"
+            android:text="Exam Routine"
             android:textColor="@color/classtune_green_color"
             android:textSize="18sp" />
     </LinearLayout>
@@ -1028,7 +1030,7 @@
                 android:id="@+id/sum_tv_result_pub_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Result published"
+                android:text="Report Card"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
@@ -1090,20 +1092,21 @@
                 android:orientation="vertical" >
 
                 <TextView
+                    android:id="@+id/summary_leave_text1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="leave Application"
+                    android:text="Leave Application"
                     android:textColor="@color/classtune_green_color"
                     android:textSize="12sp"
                     android:textStyle="bold" />
-
                 <TextView
                     android:id="@+id/sum_tv_leave"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="See detail."
+                    android:text="See detail"
                     android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    android:textSize="14sp"/>
+
             </LinearLayout>
         </LinearLayout>
 
@@ -1139,11 +1142,12 @@
                 android:orientation="vertical" >
 
                 <TextView
+                    android:id="@+id/summary_meeting_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Meeting Request"
                     android:textColor="@color/classtune_green_color"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <TextView

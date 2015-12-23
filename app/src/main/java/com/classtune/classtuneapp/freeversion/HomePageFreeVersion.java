@@ -39,7 +39,6 @@ import com.classtune.classtuneapp.schoolapp.utils.AppUtility;
 import com.classtune.classtuneapp.schoolapp.utils.GsonParser;
 import com.classtune.classtuneapp.schoolapp.utils.ReminderHelper;
 import com.classtune.classtuneapp.schoolapp.utils.RequestKeyHelper;
-import com.classtune.classtuneapp.schoolapp.utils.SPKeyHelper;
 import com.classtune.classtuneapp.schoolapp.utils.SchoolApp;
 import com.classtune.classtuneapp.schoolapp.utils.SharedPreferencesHelper;
 import com.classtune.classtuneapp.schoolapp.utils.URLHelper;
@@ -463,7 +462,7 @@ public class HomePageFreeVersion extends HomeContainerActivity {
                                 startActivity(accountSettingsIntent);
                                 break;
 
-                            case 1:// for edit profile
+                            /*case 1:// for edit profile
                                 Intent i = new Intent(HomePageFreeVersion.this,
                                         CompleteProfileActivityContainer.class);
                                 i.putExtra(SPKeyHelper.USER_TYPE, userHelper
@@ -478,8 +477,8 @@ public class HomePageFreeVersion extends HomeContainerActivity {
                                 aboutIntent.putExtra("description", getResources()
                                         .getString(R.string.about_use_text));
                                 startActivity(aboutIntent);
-                                break;
-                            case 3:// for edit profile
+                                break;*/
+                            case 1:// for edit profile
                                 Intent tpIntent = new Intent(
                                         HomePageFreeVersion.this,
                                         InfoActivity.class);

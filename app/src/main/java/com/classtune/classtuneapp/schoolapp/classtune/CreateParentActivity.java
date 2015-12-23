@@ -732,6 +732,21 @@ public class CreateParentActivity extends FragmentActivity implements IDialogSel
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == SchoolApp.REQUEST_CODE_CHILD_SELECTION){
+            if (data == null) {
+                if (resultCode == RESULT_OK) {
+                    Intent intent = new Intent(CreateParentActivity.this,
+                            HomePageFreeVersion.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                            | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+                if (resultCode == RESULT_CANCELED) {
+                    return;
+                }
+            }
+        }
         mCameraGalleryPicker.activityResult(requestCode, resultCode, data);
     }
 
@@ -784,6 +799,7 @@ public class CreateParentActivity extends FragmentActivity implements IDialogSel
 
         }
     }
+
 
     @Override
     public void onAuthenticationFailed(String msg) {
