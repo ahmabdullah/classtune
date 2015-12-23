@@ -145,7 +145,7 @@ public class HomePageFreeVersion extends HomeContainerActivity {
 
     @Override
     public void onBackPressed() {
-        Fragment homeFragment = getSupportFragmentManager().findFragmentByTag("PAID");
+        PaidVersionHomeFragment homeFragment = (PaidVersionHomeFragment) getSupportFragmentManager().findFragmentByTag("PAID");
         /*if (myFragment != null) {
             if (myFragment.isVisible()) {
                 loadHome();
@@ -155,7 +155,7 @@ public class HomePageFreeVersion extends HomeContainerActivity {
             if(homeFragment == null) {
                 loadHome();
             } else {
-                if(homeFragment.isVisible()) {
+                if(homeFragment.currentPos == 0) {
                     super.onBackPressed();
                 } else {
                     loadHome();
