@@ -46,14 +46,10 @@
 
     <string-array name="free_settings_images_log_in">
         <item>account_settings</item>
-        <item>profile_edit</item>
-        <item>about_us</item>
         <item>terms_and_policy</item>
     </string-array>
     <string-array name="free_settings_text_log_in">
         <item>Account Settings</item>
-        <item>Edit Profile</item>
-        <item>About Us</item>
         <item>Terms \u0026 Policy</item>
     </string-array>
     <string-array name="diary_images_student">
@@ -95,7 +91,7 @@
 
         <item>School Feed</item>
         <item>Homework</item>
-        <item>Quiz</item>
+        <item>Assessment</item>
         <item>Notice</item>
         <item>Syllabus</item>
         <item>Event</item>
@@ -152,7 +148,7 @@
         <item>School Feed</item>
         <item>Homework</item>
         <item>Notice</item>
-        <item>Quiz</item>
+        <item>Assessment</item>
 
         <item>Syllabus</item>
         <item>Event</item>
@@ -190,7 +186,7 @@
     <string-array name="diary_text_parents">
         <item>School Feed</item>
         <item>Homework</item>
-        <item>Quiz</item>
+        <item>Assessment</item>
         <item>Notice</item>
         <item>Syllabus</item>
         <item>Event</item>
@@ -260,7 +256,7 @@
         <item>Attendance</item>
         <item>Routine</item>
         <item>Exam Routine</item>
-        <item>Reportcard</item>
+        <item>Report Card</item>
         <item>Meeting Request</item>
         <item>Academic Calendar</item>
         <item>Transport</item>
@@ -325,7 +321,7 @@
         <item>Meeting Request</item>
         <item>Events</item>
         <item>Transport</item>
-        <item>Reportcard</item>
+        <item>Report Card</item>
         <item>Academic Calendar</item>
         <item>Lesson Plan</item>
 
@@ -386,7 +382,7 @@
         <item>Meeting Request</item>
         <item>Events</item>
         <item>Transport</item>
-        <item>Reportcard</item>
+        <item>Report Card</item>
         <item>Academic Calendar</item>
         <item>Lesson Plan</item>
 

@@ -86,6 +86,7 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
     private int[] mArray = {R.id.m1, R.id.m2, R.id.m3, R.id.m4, R.id.m5,
             R.id.m6};
     private boolean isPaid;
+    private boolean isTeacher;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -105,6 +106,7 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
         //some code goes here
         spinner = (ProgressBar) view.findViewById(R.id.loading);
         isPaid = userHelper.getUser().getPaidInfo().getSchoolType() == 1 ? true : false;
+        isTeacher = userHelper.getUser().getType() == UserTypeEnum.TEACHER ? true : false;
         // adapter.notifyDataSetChanged();
 
         listGoodread = (PullToRefreshListView) view
@@ -419,8 +421,10 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                                     .findViewById(R.id.sum_lay_tution);
                             holder.leaveStatusText = (TextView) convertView
                                     .findViewById(R.id.sum_tv_leave);
+                            holder.leavetextLabel = (TextView) convertView.findViewById(R.id.summary_leave_text1);
                             holder.meetingStatusText = (TextView) convertView
                                     .findViewById(R.id.sum_tv_meeting);
+                            holder.meetingLabel = (TextView) convertView.findViewById(R.id.summary_meeting_label);
                             holder.feesIcon = (ImageView) convertView.findViewById(R.id.summary_tution_icon);
                             holder.leaveIcon = (ImageView) convertView.findViewById(R.id.summary_leave_icon);
                             holder.meetingIcon = (ImageView) convertView.findViewById(R.id.summary_meeting_icon);
@@ -488,19 +492,22 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                             holder.rpIcon = (ImageView) convertView.findViewById(R.id.summery_result_publish_icon);
 
                             holder.rpGoodLuck = (TextView) convertView.findViewById(R.id.summery_result_publish_good_luck_text);
-                            holder.examRoutineText = (TextView) convertView
-                                    .findViewById(R.id.sum_tv_exam_routine);
-                            holder.erpIcon = (LinearLayout) convertView.findViewById(R.id.summary_exam_routine_publish_icon);
+
+
                             holder.examTomorrow = (LinearLayout) convertView
                                     .findViewById(R.id.sum_lay_exam);
                             holder.etIconbg = (LinearLayout) convertView.findViewById(R.id.summery_exam_tomorrow_icon);
                             holder.etText1 = (TextView) convertView.findViewById(R.id.summery_exam_tomorrow_text1);
                             holder.etText2 = (TextView) convertView.findViewById(R.id.summery_exam_tomorrow_text2);
-                            holder.routinePublish = (LinearLayout) convertView
-                                    .findViewById(R.id.sum_lay_exam_routine_publish);
+
                             holder.reusltPublish = (LinearLayout) convertView
                                     .findViewById(R.id.sum_lay_report_card);
                         }
+                        holder.examRoutineText = (TextView) convertView
+                                .findViewById(R.id.sum_tv_exam_routine);
+                        holder.erpIcon = (LinearLayout) convertView.findViewById(R.id.summary_exam_routine_publish_icon);
+                        holder.routinePublish = (LinearLayout) convertView
+                                .findViewById(R.id.sum_lay_exam_routine_publish);
 
                         holder.dateSlot = (LinearLayout) convertView
                                 .findViewById(R.id.sum_lay_date_slot);
@@ -682,8 +689,25 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                         }
 
                         if (userHelper.getUser().getType() == UserTypeEnum.TEACHER) {
-                            holder.studentNameHeader.setText(userHelper.getUser().getFullName());
-                            disableBlock(holder.meeting, feed.isMeetingTomorrow(), 9);
+                            if (!TextUtils.isEmpty(userHelper.getUser().getNickName())) {
+                                switch (Integer.parseInt(userHelper.getUser().getNickName())) {
+                                    case 1:
+                                        setUserName(holder.studentNameHeader,userHelper.getUser().getFirstName());
+                                        break;
+                                    case 2:
+                                        setUserName(holder.studentNameHeader, userHelper.getUser().getMiddleName());
+                                        break;
+                                    case 3:
+                                        setUserName(holder.studentNameHeader, userHelper.getUser().getLastName());
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            } else {
+                                holder.studentNameHeader.setText(userHelper.getUser().getEmail());
+                            }
+                            //holder.studentNameHeader.setText(userHelper.getUser().getFullName());
+                            disableBlock(holder.meeting, isPaid, 10);
                             if (feed.getNextClasses().size() == 0) {
                                 holder.nextClasses.setVisibility(View.GONE);
                             } else {
@@ -693,7 +717,7 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                                     public void onClick(View view) {
                                         ((HomePageFreeVersion) getActivity())
                                                 .loadPaidFragment(PaidVersionHomeFragment
-                                                        .newInstance(4));
+                                                        .newInstance(3));
                                     }
                                 });
                                 holder.sum_tv_subject_name_day1.setText(feed.getNextClasses().get(0).getSubject_name() + "(" + capitalize(feed.getNextClasses().get(0).getWeekday_text().substring(0, 3)) + ")");
@@ -716,7 +740,7 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                                     public void onClick(View view) {
                                         ((HomePageFreeVersion) getActivity())
                                                 .loadPaidFragment(PaidVersionHomeFragment
-                                                        .newInstance(3));
+                                                        .newInstance(2));
                                     }
                                 });
                                 holder.sum_tv_teacher_hw_subject_stat1.setText(feed.getNextHomeWorks().get(0).getSubjects() + "(" + feed.getNextHomeWorks().get(0).getDone() + " Done)");
@@ -736,7 +760,7 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                                 public void onClick(View view) {
                                     ((HomePageFreeVersion) getActivity())
                                             .loadPaidFragment(PaidVersionHomeFragment
-                                                    .newInstance(2));
+                                                    .newInstance(1));
                                 }
                             });
                             holder.sum_lay_add_homework.setOnClickListener(new OnClickListener() {
@@ -744,9 +768,11 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                                 public void onClick(View view) {
                                     ((HomePageFreeVersion) getActivity())
                                             .loadPaidFragment(PaidVersionHomeFragment
-                                                    .newInstance(3));
+                                                    .newInstance(2));
                                 }
                             });
+
+
                         } else {
                             holder.toggle.setVisibility(View.VISIBLE);
                             holder.attendance.setVisibility(View.VISIBLE);
@@ -794,9 +820,9 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                                 holder.etText1.setTextColor(getResources().getColor(R.color.black));
                                 holder.etText2.setTextColor(getResources().getColor(R.color.black));
                             }
-                            disableBlock(holder.examTomorrow, isPaid,
-                                    9);
-                            disableBlock(holder.quiz,
+
+                            disableBlock(holder.quiz,/*disableBlock(holder.examTomorrow, isPaid,
+                                    9);*/
                                     feed.getSummeryQuizes().size() != 0, 3);
 
                             disableBlock(holder.reusltPublish,
@@ -812,16 +838,7 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                                 holder.examResultText.setTextColor(getResources().getColor(R.color.gray_4));
                                 holder.rpGoodLuck.setTextColor(getResources().getColor(R.color.gray_4));
                             }
-                            if (isPaid) {
-                                /*holder.examRoutineText.setText(feed
-                                        .getRoutine_publish() + " Routine published.");*/
-                                holder.erpIcon.setBackgroundColor(getResources().getColor(R.color.classtune_green_color));
-                            } else {
-                                holder.erpIcon.setBackgroundColor(getResources().getColor(R.color.red_disable));
-                                holder.examRoutineText.setTextColor(getResources().getColor(R.color.gray_4));
-                            }
-                            disableBlock(holder.routinePublish,
-                                    isPaid, 9);
+
                             holder.toggle.setOnClickListener(new OnClickListener() {
 
                                 @Override
@@ -840,6 +857,16 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                             });
                         }
 
+                        if (isPaid) {
+                                /*holder.examRoutineText.setText(feed
+                                        .getRoutine_publish() + " Routine published.");*/
+                            holder.erpIcon.setBackgroundColor(getResources().getColor(R.color.classtune_green_color));
+                        } else {
+                            holder.erpIcon.setBackgroundColor(getResources().getColor(R.color.red_disable));
+                            holder.examRoutineText.setTextColor(getResources().getColor(R.color.gray_4));
+                        }
+                        disableBlock(holder.routinePublish,
+                                isPaid, isTeacher ? 5 : 9);
                         if (userHelper.getUser().getType() == UserTypeEnum.PARENTS) {
                             holder.parentOfLabel.setVisibility(View.VISIBLE);
                             if (isPaid) {
@@ -856,7 +883,9 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                                     }
                                 }
                             }else {
-                                holder.rpIcon.setAlpha(70);
+                                holder.leavetextLabel.setTextColor(getResources().getColor(R.color.gray_4));
+                                holder.leaveStatusText.setTextColor(getResources().getColor(R.color.gray_4));
+                                holder.leaveIcon.setAlpha(70);
                             }
                             if(isPaid) {
                                 holder.feesIcon.setAlpha(255);
@@ -879,6 +908,8 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                                 }
                             } else {
                                 holder.meetingIcon.setAlpha(70);
+                                holder.meetingStatusText.setTextColor(getResources().getColor(R.color.gray_4));
+                                holder.meetingLabel.setTextColor(getResources().getColor(R.color.gray_4));
                             }
 
 
@@ -886,7 +917,7 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                         }
 
                         disableBlock(holder.eventTomorrow,
-                                isPaid, 6);
+                                isPaid, isTeacher ? 11 : 6);
                         if (isPaid) {//feed.isHasEventTomorrow()
                             /*holder.eventText.setText("You have "
                                     + feed.getEvent_name() + " Tomorrow.");*/
@@ -896,7 +927,7 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                             holder.eventText.setTextColor(getResources().getColor(R.color.gray_4));
                         }
 
-                        disableBlock(holder.notice, true, isPaid ? 4:3);
+                        disableBlock(holder.notice, true, isPaid ? isTeacher ? 6 : 4 : 3);
                         /*if(feed.isHasNotice()) {
                             holder.noticeIconLay.setBackgroundColor(getResources().getColor(R.color.red));
                             holder.noticeText.setTextColor(getResources().getColor(R.color.black));
@@ -1287,7 +1318,7 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
         // SUMMERY LAYOUT
         TextView schoolName, currentDate, studentName;
         TextView todayTextView, summeryRoutineText, hwText1, hwText2;
-        TextView attendanceTextView, leaveStatusText, meetingStatusText;
+        TextView attendanceTextView, leaveStatusText, leavetextLabel, meetingStatusText, meetingLabel;
         TextView examRoutineText, examResultText, eventText, rpGoodLuck;
         TextView sum_tv_subject_name_day1, sum_tv_batch_course1, sum_tv_class_duration1;
         TextView sum_tv_subject_name_day2, sum_tv_batch_course2, sum_tv_class_duration2;
@@ -1422,6 +1453,11 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
 
     }
 
-
+    public void setUserName(TextView userNameTextView ,String name) {
+        if (!TextUtils.isEmpty(name))
+            userNameTextView.setText(name);
+        else
+            userNameTextView.setText(userHelper.getUser().getEmail());
+    }
 
 }
