@@ -31,7 +31,7 @@ public class PaidVersionHomeFragment extends Fragment implements
 	public static List<BaseType> batches = new ArrayList<BaseType>();
 	public static boolean isBatchLoaded = false;
 	public static Batch selectedBatch = null;
-	private int currentPos = 0;
+	public int currentPos = 0;
 	private UserHelper userHelper = new UserHelper(getActivity());
 	private boolean ispaid;
 
@@ -339,6 +339,7 @@ public class PaidVersionHomeFragment extends Fragment implements
 
 	private void loadDiaryItem(DrawerChildMenuDiary item) {
 		String className = item.getClazzName();
+		currentPos = Integer.parseInt(item.getId());
 		try {
 			// Object xyz = Class.forName(className).newInstance();
 			if (className.equals("com.classtune.classtuneapp.schoolapp.fragments.home")) {
