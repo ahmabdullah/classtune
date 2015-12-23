@@ -2,14 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="8.8"
+    android:weightSum="5"
     android:orientation="vertical">
 
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,7 +17,7 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2.8"
+                android:layout_weight="1.5"
                 android:background="@drawable/classtune_selectuser_top">
 
 
@@ -48,7 +45,7 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight=".5"
                 android:gravity="center">
 
                 <!--<ImageView
@@ -77,15 +74,15 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="5"
-                android:weightSum="3.5"
+                android:layout_weight="3"
+
                 android:background="#dfe1e2">
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="2">
+                    android:layout_weight="1.5">
 
                     <LinearLayout
                         android:orientation="horizontal"
@@ -201,8 +198,8 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:background="#ebeced"
-                    android:layout_weight="1.5">
+                    android:layout_weight="1"
+                    android:background="#ebeced">
 
                     <LinearLayout
                         android:orientation="vertical"
@@ -243,7 +240,6 @@
 
         </LinearLayout>
 
-    </ScrollView>
 
 
 

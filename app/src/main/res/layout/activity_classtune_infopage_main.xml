@@ -87,7 +87,7 @@
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
-                android:text="The easiest and quickest way for Students-Parents-Teachers to connect with each other. School Administrators can connect each individual under one single platform. classtune makes institutional monitoring and management of school activity easy and effective. Thus, Students-Parents-Teachers and School admin can bridge with each other and progress together.">
+                android:text="The easiest and quickest way for Students, Parents and Teachers to connect with each other. School Administrators can connect each individual on a single platform. ClassTune makes institutional monitoring and management of school activity easy and effective.">
 
             </com.classtune.classtuneapp.schoolapp.classtune.TextViewPlus>
 

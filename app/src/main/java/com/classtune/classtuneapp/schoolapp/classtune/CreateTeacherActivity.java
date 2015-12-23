@@ -4,27 +4,17 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.ComponentName;
-import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -33,19 +23,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.classtune.classtuneapp.R;
 import com.classtune.classtuneapp.freeversion.CompleteProfileActivityContainer;
 import com.classtune.classtuneapp.freeversion.HomePageFreeVersion;
-import com.classtune.classtuneapp.schoolapp.adapters.CropOptionAdapter;
 import com.classtune.classtuneapp.schoolapp.camera.CameraGalleryPicker;
 import com.classtune.classtuneapp.schoolapp.camera.IPictureCallback;
-import com.classtune.classtuneapp.schoolapp.fragments.AlbumStorageDirFactory;
-import com.classtune.classtuneapp.schoolapp.fragments.BaseAlbumDirFactory;
-import com.classtune.classtuneapp.schoolapp.fragments.FroyoAlbumDirFactory;
 import com.classtune.classtuneapp.schoolapp.fragments.UserTypeSelectionDialog;
-import com.classtune.classtuneapp.schoolapp.model.CropOption;
 import com.classtune.classtuneapp.schoolapp.model.TeacherInfo;
 import com.classtune.classtuneapp.schoolapp.model.UserAuthListener;
 import com.classtune.classtuneapp.schoolapp.model.Wrapper;
@@ -67,13 +51,8 @@ import com.loopj.android.http.RequestParams;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -163,6 +142,8 @@ public class CreateTeacherActivity extends FragmentActivity implements UserAuthL
     private CameraGalleryPicker mCameraGalleryPicker;
     private File mCameraGalleryFile;
 
+    private Button btnCreateLower;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -243,6 +224,8 @@ public class CreateTeacherActivity extends FragmentActivity implements UserAuthL
         layoutPositionHolder = (RelativeLayout)findViewById(R.id.layoutPositionHolder);
 
         txtMessage = (TextView)this.findViewById(R.id.txtMessage);
+
+        btnCreateLower = (Button)this.findViewById(R.id.btnCreateLower);
 
     }
 
@@ -351,6 +334,17 @@ public class CreateTeacherActivity extends FragmentActivity implements UserAuthL
 
             }
         });
+
+        btnCreateLower.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(checkValidForm() == true)
+                {
+                    initApiCallCreateTeacher();
+                }
+            }
+        });
+
 
         layoutUploadPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -862,7 +856,7 @@ public class CreateTeacherActivity extends FragmentActivity implements UserAuthL
         }
 
 
-        userHelper.doClassTuneLogin(URLHelper.URL_PAID_TEACHER, params);
+        userHelper.doClassTuneLogin(URLHelper.URL_PAID_TEACHER, params, ordinal, uiHelper);
         //AppRestClient.post(URLHelper.URL_PAID_TEACHER, params, createTeacherHandler);
     }
 
@@ -984,7 +978,8 @@ public class CreateTeacherActivity extends FragmentActivity implements UserAuthL
     private void updateImagenamePanel(boolean isVisible) {
         if (isVisible) {
             imageNameContainer.setVisibility(View.VISIBLE);
-            tvImageName.setText(getFileNameFromPath(selectedImagePath));
+            //tvImageName.setText(getFileNameFromPath(selectedImagePath));
+            tvImageName.setText("Successful");
 
             txtUploadPhoto.setVisibility(View.GONE);
 

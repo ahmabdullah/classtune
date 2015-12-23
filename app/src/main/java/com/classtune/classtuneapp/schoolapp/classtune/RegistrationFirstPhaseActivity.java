@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -46,6 +47,8 @@ public class RegistrationFirstPhaseActivity extends Activity {
 
     private String schoolId = "";
     private ActionBar actionBar;
+
+    private Button btnCreateLower;
 
 
     @Override
@@ -111,7 +114,7 @@ public class RegistrationFirstPhaseActivity extends Activity {
         txtRetypePassword.setTypeface(Typeface.DEFAULT);
         txtRetypePassword.setTransformationMethod(new PasswordTransformationMethod());
 
-
+        btnCreateLower = (Button)this.findViewById(R.id.btnCreateLower);
     }
 
     private void initAction()
@@ -126,7 +129,14 @@ public class RegistrationFirstPhaseActivity extends Activity {
             }
         });
 
+        btnCreateLower.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                if(checkValidForm() == true && checkValidEmail() == true)
+                    initApicall();
+            }
+        });
 
     }
 
