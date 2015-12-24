@@ -21,8 +21,8 @@
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_weight=".2"
-                android:text="Email:"
+                android:layout_weight=".35"
+                android:text="User ID:"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 

@@ -436,7 +436,13 @@ public class CreateStudentActivity extends FragmentActivity implements UserAuthL
 
             Log.e("CURRENT_DATE", "is: " + sb.toString());
             dob = sb.toString();
-            txtDob.setText(dob);
+
+            StringBuilder sbForTextView = new StringBuilder()
+                    .append(day).append("-")
+                    .append(month + 1).append("-")
+                    .append(year).append(" ");
+
+            txtDob.setText(sbForTextView.toString());
 
             //pickerDob.init(CreateStudentActivity.this.year, CreateStudentActivity.this.month, CreateStudentActivity.this.day, this);
         }
