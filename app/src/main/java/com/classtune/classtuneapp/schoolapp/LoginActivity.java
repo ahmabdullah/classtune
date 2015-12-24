@@ -177,10 +177,10 @@ public class LoginActivity extends SocialBaseActivity implements
 					finish();
 					break;
 				case PAID:
-                    if ( UserHelper.isFirstLogin() ){
+                   /* if ( UserHelper.isFirstLogin() ){
                         PopupDialogChangePassword picker = new PopupDialogChangePassword();
                         picker.show(getSupportFragmentManager(), null);
-                    } else {
+                    } else {*/
 						if(userHelper.getUser().getType() != UserTypeEnum.PARENTS){
 							doPaidNavigation();
 						} else {
@@ -188,7 +188,7 @@ public class LoginActivity extends SocialBaseActivity implements
 											ChildSelectionActivity.class),
 									SchoolApp.REQUEST_CODE_CHILD_SELECTION);
 						}
-					}
+					//}
                     break;
 
 				default:
