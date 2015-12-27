@@ -10,6 +10,12 @@
         android:layout_height="match_parent"
         android:fillViewport="true">
 
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -58,20 +64,6 @@
                     android:layout_marginBottom="20dp"
                     android:layout_below="@+id/layoutUserIdHolder">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/classtune_registration_teacher_employee_number_title"
-                        android:id="@+id/textView12"
-                        android:textColor="@android:color/black"
-                        android:textStyle="bold"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginTop="10dp"
-                        android:textSize="18sp"
-                        android:singleLine="true"
-                        android:nextFocusDown="@+id/txtContact"
-                        android:layout_centerHorizontal="true" />
-
                     <EditText
                         android:id="@+id/txtEmployeeNumber"
                         android:layout_width="match_parent"
@@ -80,8 +72,7 @@
                         android:padding="10dp"
                         android:background="#dfe1e2"
                         android:gravity="center"
-                        android:hint="@string/classtune_registration_teacher_employee_number"
-                        android:layout_below="@+id/textView12" />
+                        android:hint="@string/classtune_registration_teacher_employee_number" />
 
                 </RelativeLayout>
 
@@ -141,7 +132,7 @@
                                     android:gravity="center"
                                     android:textColor="@android:color/white"
                                     android:textStyle="bold"
-                                    android:text="Date of birth"
+                                    android:text="Date of Birth"
                                     android:textSize="12sp"
                                     android:layout_marginTop="5dp"
                                     android:layout_below="@+id/imageView7"
@@ -219,7 +210,7 @@
                                     android:gravity="center"
                                     android:textColor="@android:color/white"
                                     android:textStyle="bold"
-                                    android:text="Contact no."
+                                    android:text="Contact No."
                                     android:textSize="12sp"
                                     android:layout_marginTop="5dp"
                                     android:layout_below="@+id/imageView9"
@@ -259,7 +250,7 @@
                                     android:gravity="center"
                                     android:textColor="@android:color/white"
                                     android:textStyle="bold"
-                                    android:text="Job title"
+                                    android:text="Job Title"
                                     android:textSize="12sp"
                                     android:layout_marginTop="5dp"
                                     android:layout_below="@+id/imageView11"
@@ -462,7 +453,7 @@
                                     android:gravity="center"
                                     android:textColor="@android:color/white"
                                     android:textStyle="bold"
-                                    android:text="Joining date"
+                                    android:text="Joining Date"
                                     android:textSize="12sp"
                                     android:layout_marginTop="5dp"
                                     android:layout_below="@+id/imageView16"
@@ -501,7 +492,7 @@
                                     android:gravity="center"
                                     android:textColor="@android:color/white"
                                     android:textStyle="bold"
-                                    android:text="Upload a photo"
+                                    android:text="Upload a Photo"
                                     android:textSize="12sp"
                                     android:layout_marginTop="5dp"
                                     android:layout_below="@+id/imageView10"
@@ -944,7 +935,8 @@
                                         android:layout_weight="1"
                                         android:textColor="@color/black"
                                         android:textColorHint="@color/gray_1"
-                                        android:textSize="12sp" />
+                                        android:gravity="center"
+                                        android:textSize="18sp" />
 
                                     <ImageView
                                         android:id="@+id/btn_cross_image"
@@ -971,13 +963,26 @@
 
             </RelativeLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
+                <Button
+                    android:id="@+id/btnCreateLower"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="30dp"
+                    android:textSize="20sp"
+                    android:text="Create Account"
+                    android:textStyle="bold"
+                    android:textColor="@drawable/classtune_btn_firstphase_next"
+                    android:background="@drawable/classtune_btn_fistphase_background"/>
 
+            </LinearLayout>
 
-
-
+        </LinearLayout>
     </ScrollView>
-
 
 
 </RelativeLayout>

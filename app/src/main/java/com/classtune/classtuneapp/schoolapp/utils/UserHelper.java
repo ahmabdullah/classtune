@@ -15,6 +15,7 @@ import com.classtune.classtuneapp.schoolapp.model.UserPaidInfo;
 import com.classtune.classtuneapp.schoolapp.model.UserWrapper;
 import com.classtune.classtuneapp.schoolapp.model.Wrapper;
 import com.classtune.classtuneapp.schoolapp.networking.AppRestClient;
+import com.classtune.classtuneapp.schoolapp.viewhelpers.UIHelper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -74,8 +75,13 @@ public class UserHelper {
         AppRestClient.post(URLHelper.URL_LOGIN, params, logInHandler);
     }
 
-    public void doClassTuneLogin(String url, RequestParams params) {
+    private int ordinal = 0;
+    private UIHelper uiHelper;
+
+    public void doClassTuneLogin(String url, RequestParams params, int ordinal, UIHelper uiHelper) {
         this.logedInUser = getUser();
+        this.ordinal = ordinal;
+        this.uiHelper = uiHelper;
         AppRestClient.post(url, params, logInHandler);
     }
 
@@ -452,6 +458,62 @@ public class UserHelper {
             } else {
                 uListener.onAuthenticationFailed(wrapper.getStatus().getMsg());
             }
+
+            if(ordinal == 2) //student
+            {
+                if (wrapper.getStatus().getCode() == 401) {
+
+                    Log.e("CODE 401", "code 401");
+                    uiHelper.showErrorDialog(AppConstant.CLASSTUNE_MESSAGE_ADMISSION_NUMBER_EXISTS);
+                }
+
+                else if (wrapper.getStatus().getCode() == 400) {
+
+                    Log.e("CODE 400", "code 400");
+                    uiHelper.showErrorDialog(AppConstant.CLASSTUNE_MESSAGE_SOMETHING_WENT_WRONG);
+                }
+            }
+
+            if(ordinal == 4) //parent
+            {
+                if (wrapper.getStatus().getCode() == 401) {
+
+                    Log.e("CODE 401", "code 401");
+                    uiHelper.showErrorDialog(AppConstant.CLASSTUNE_MESSAGE_USER_NAME);
+                }
+
+                else if (wrapper.getStatus().getCode() == 400) {
+
+                    Log.e("CODE 400", "code 400");
+                    uiHelper.showErrorDialog(AppConstant.CLASSTUNE_MESSAGE_SOMETHING_WENT_WRONG);
+                }
+
+                else if (wrapper.getStatus().getCode() == 402) {
+
+                    Log.e("CODE 402", "code 402");
+                    uiHelper.showErrorDialog(AppConstant.CLASSTUNE_MESSAGE_INVALID_STUDENT_ID);
+                }
+            }
+
+            if(ordinal == 3) //teacher
+            {
+                if (wrapper.getStatus().getCode() == 401) {
+
+                    Log.e("CODE 401", "code 401");
+                    uiHelper.showErrorDialog(AppConstant.CLASSTUNE_MESSAGE_EMPLOYEE_EXISTS);
+                }
+
+                else if (wrapper.getStatus().getCode() == 400) {
+
+                    Log.e("CODE 400", "code 400");
+                    uiHelper.showErrorDialog(AppConstant.CLASSTUNE_MESSAGE_SOMETHING_WENT_WRONG);
+                }
+            }
+
+            if (uiHelper!= null && uiHelper.isDialogActive()) {
+                uiHelper.dismissLoadingDialog();
+            }
+
         }
     };
     public void saveSchoolLogo(String logo) {

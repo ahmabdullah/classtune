@@ -112,6 +112,7 @@ public class CreateStudentActivity extends FragmentActivity implements UserAuthL
     private CameraGalleryPicker mCameraGalleryPicker;
     private File mCameraGalleryFile;
 
+    private Button btnCreateLower;
 
 
 
@@ -281,6 +282,8 @@ public class CreateStudentActivity extends FragmentActivity implements UserAuthL
         layoutDatePicker = (RelativeLayout)this.findViewById(R.id.layoutDatePicker);
 
         txtUploadPhoto = (TextView)this.findViewById(R.id.txtUploadPhoto);
+
+        btnCreateLower = (Button)this.findViewById(R.id.btnCreateLower);
     }
 
     private void setUpActionBar() {
@@ -345,6 +348,15 @@ public class CreateStudentActivity extends FragmentActivity implements UserAuthL
                     initApicall();
                 }
 
+            }
+        });
+
+        btnCreateLower.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (checkValidForm() == true) {
+                    initApicall();
+                }
             }
         });
 
@@ -424,7 +436,13 @@ public class CreateStudentActivity extends FragmentActivity implements UserAuthL
 
             Log.e("CURRENT_DATE", "is: " + sb.toString());
             dob = sb.toString();
-            txtDob.setText(dob);
+
+            StringBuilder sbForTextView = new StringBuilder()
+                    .append(day).append("-")
+                    .append(month + 1).append("-")
+                    .append(year).append(" ");
+
+            txtDob.setText(sbForTextView.toString());
 
             //pickerDob.init(CreateStudentActivity.this.year, CreateStudentActivity.this.month, CreateStudentActivity.this.day, this);
         }
@@ -522,7 +540,7 @@ public class CreateStudentActivity extends FragmentActivity implements UserAuthL
         }
 
 
-        userHelper.doClassTuneLogin(URLHelper.URL_PAID_STUDENT, params);
+        userHelper.doClassTuneLogin(URLHelper.URL_PAID_STUDENT, params, ordinal, uiHelper);
         //AppRestClient.post(URLHelper.URL_PAID_STUDENT, params, createStudentHandler);
     }
 
@@ -635,7 +653,8 @@ public class CreateStudentActivity extends FragmentActivity implements UserAuthL
     private void updateImagenamePanel(boolean isVisible) {
         if (isVisible) {
             imageNameContainer.setVisibility(View.VISIBLE);
-            tvImageName.setText(getFileNameFromPath(selectedImagePath));
+            //tvImageName.setText(getFileNameFromPath(selectedImagePath));
+            tvImageName.setText("Successful");
 
             txtUploadPhoto.setVisibility(View.GONE);
 

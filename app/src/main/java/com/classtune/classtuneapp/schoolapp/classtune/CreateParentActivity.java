@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -117,6 +118,8 @@ public class CreateParentActivity extends FragmentActivity implements IDialogSel
     private CameraGalleryPicker mCameraGalleryPicker;
     private File mCameraGalleryFile;
 
+    private Button btnCreateLower;
+
 
 
     @Override
@@ -185,6 +188,8 @@ public class CreateParentActivity extends FragmentActivity implements IDialogSel
         txtChildId = (TextView)this.findViewById(R.id.txtChildId);
 
         layoutAddMoreChild = (RelativeLayout)this.findViewById(R.id.layoutAddMoreChild);
+
+        btnCreateLower = (Button)this.findViewById(R.id.btnCreateLower);
 
     }
 
@@ -265,6 +270,15 @@ public class CreateParentActivity extends FragmentActivity implements IDialogSel
                     initApiCall();
                 }
 
+            }
+        });
+
+        btnCreateLower.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (checkValidForm() == true) {
+                    initApiCall();
+                }
             }
         });
 
@@ -349,7 +363,13 @@ public class CreateParentActivity extends FragmentActivity implements IDialogSel
 
             Log.e("CURRENT_DATE", "is: " + sb.toString());
             dob = sb.toString();
-            txtDob.setText(dob);
+
+            StringBuilder sbForTextView = new StringBuilder()
+                    .append(day).append("-")
+                    .append(month + 1).append("-")
+                    .append(year).append(" ");
+
+            txtDob.setText(sbForTextView.toString());
 
             //pickerDob.init(CreateStudentActivity.this.year, CreateStudentActivity.this.month, CreateStudentActivity.this.day, this);
         }
@@ -500,7 +520,7 @@ public class CreateParentActivity extends FragmentActivity implements IDialogSel
 
 
 
-        userHelper.doClassTuneLogin(URLHelper.URL_PAID_PARENT, params);
+        userHelper.doClassTuneLogin(URLHelper.URL_PAID_PARENT, params, ordinal, uiHelper);
         //AppRestClient.post(URLHelper.URL_PAID_PARENT, params, createParentHandler);
     }
 
@@ -713,7 +733,8 @@ public class CreateParentActivity extends FragmentActivity implements IDialogSel
     private void updateImagenamePanel(boolean isVisible) {
         if (isVisible) {
             imageNameContainer.setVisibility(View.VISIBLE);
-            tvImageName.setText(getFileNameFromPath(selectedImagePath));
+            //tvImageName.setText(getFileNameFromPath(selectedImagePath));
+            tvImageName.setText("Successful");
 
             txtUploadPhoto.setVisibility(View.GONE);
 
