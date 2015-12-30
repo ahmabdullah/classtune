@@ -25,6 +25,7 @@
     <string name="setting_drawer_logout_text">Log Out</string>
     <string name="setting_drawer_about_us_text">About Us</string>
     <string name="setting_drawer_current_password_hint_text">Current Password</string>
+
     <string name="setting_drawer_new_password_hint_text">New Password</string>
     <string name="setting_drawer_retype_password_hint_text">Retype Password</string>
     <string name="progress_message">Signing in to Google&#8230;</string>
@@ -38,10 +39,12 @@
     <string-array name="free_settings_images">
         <item>about_us</item>
         <item>terms_and_policy</item>
+        <item>faq_icon</item>
     </string-array>
     <string-array name="free_settings_text">
         <item>About Us</item>
         <item>Terms \u0026 Policy</item>
+        <item>faq_icon</item>
     </string-array>
 
     <string-array name="free_settings_images_log_in">
