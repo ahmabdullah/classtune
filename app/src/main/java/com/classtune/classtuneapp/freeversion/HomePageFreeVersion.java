@@ -487,6 +487,9 @@ public class HomePageFreeVersion extends HomeContainerActivity {
                                         .getString(R.string.termsandpolicy_text));
                                 startActivity(tpIntent);
                                 break;
+                            case 2:
+                                //FAQ implementation goes here pagla ovi
+                                break;
                             default:
                                 break;
                         }

@@ -47,10 +47,12 @@
     <string-array name="free_settings_images_log_in">
         <item>account_settings</item>
         <item>terms_and_policy</item>
+        <item>faq_icon</item>
     </string-array>
     <string-array name="free_settings_text_log_in">
         <item>Account Settings</item>
         <item>Terms \u0026 Policy</item>
+        <item>FAQ</item>
     </string-array>
     <string-array name="diary_images_student">
         <item>home</item>
@@ -500,7 +502,7 @@ Get updates on recent on goings and feeds from your school teachers.</string>
     <string name="title_roll_call_tab">Roll Call</string>
     <string name="title_class_report_tab">Class Report</string>
     <string name="title_student_report_tab">Student Report</string>
-    <string name="yearly_attendance_report_title_text">Attendance status till %1$s</string>
+    <string name="yearly_attendance_report_title_text">Attendance status since %1$s</string>
 
     <!-- Academic Calender -->
     <string name="title_exam_calendar_tab">Exam</string>

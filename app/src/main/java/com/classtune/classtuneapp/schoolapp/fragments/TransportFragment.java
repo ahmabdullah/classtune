@@ -57,8 +57,6 @@ public class TransportFragment extends UserVisibleHintFragment implements
         mContext = getActivity();
 		userHelper = new UserHelper(this, getActivity());
 
-		
-
 	}
 
 	public void fetchTransportData() {
@@ -88,13 +86,11 @@ public class TransportFragment extends UserVisibleHintFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		uiHelper = new UIHelper(this.getActivity());
 		View view = inflater.inflate(R.layout.fragment_transport, container,
 				false);
 
 		initViewObjects(view);
-
 		return view;
 	}
 
@@ -175,7 +171,10 @@ public class TransportFragment extends UserVisibleHintFragment implements
 						modelContainer.getData().getAsJsonObject()
 								.get("transport").getAsJsonObject()
 								.get("schedule").getAsJsonArray().toString());
-				if(listSchedule.size()>0)nodata.setVisibility(View.GONE);
+				if(listSchedule.size()>0) {
+					nodata.setVisibility(View.GONE);
+				}
+				layoutListHolder.removeAllViews();
 				for (int i = 0; i < listSchedule.size(); i++) {
 
 					View row = LayoutInflater.from(mContext).inflate(
@@ -201,7 +200,6 @@ public class TransportFragment extends UserVisibleHintFragment implements
 					layoutListHolder.addView(row);
 
 				}
-
 
 				initViewActions();
 

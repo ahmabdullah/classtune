@@ -364,13 +364,9 @@ public class AttendenceFragment extends Fragment implements UserAuthListener{
 		view = inflater.inflate(R.layout.calendar, container,
 				false);
 		weekDaysNameContainer=(LinearLayout)view.findViewById(R.id.day_name_container);
-		
-		
 		month = (GregorianCalendar) GregorianCalendar.getInstance();
 		itemmonth = (GregorianCalendar) month.clone();
-
 		items = new ArrayList<String>();
-		
 		weekends=new ArrayList<Integer>();
 		weekends.add(5);
 		weekends.add(6);

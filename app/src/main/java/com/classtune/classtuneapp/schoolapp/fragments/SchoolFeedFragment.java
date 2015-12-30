@@ -127,7 +127,6 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
             uiHelper.showMessage(getActivity().getString(
                     R.string.internet_error_text));
         }
-
     }
 
     private void setUpList() {
