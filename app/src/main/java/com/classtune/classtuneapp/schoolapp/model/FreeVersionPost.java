@@ -1016,6 +1016,10 @@ public class FreeVersionPost {
 		private boolean hasClassTomorrow;
 		@SerializedName("homework_subject")
 		private ArrayList<HomeWorkSubject> homeWorkSubjects;
+		@SerializedName("homework_total")
+		private int homeworkTotal;
+		@SerializedName("notice_total")
+		private int noticeTotal;
 		@SerializedName("result_publish")
 		private String result_publish;
 		@SerializedName("routine_publish")
@@ -1158,6 +1162,22 @@ public class FreeVersionPost {
 		}
 		public void setHasNotice(boolean hasNotice) {
 			this.hasNotice = hasNotice;
+		}
+
+		public int getHomeworkTotal() {
+			return homeworkTotal;
+		}
+
+		public void setHomeworkTotal(int homeworkTotal) {
+			this.homeworkTotal = homeworkTotal;
+		}
+
+		public int getNoticeTotal() {
+			return noticeTotal;
+		}
+
+		public void setNoticeTotal(int noticeTotal) {
+			this.noticeTotal = noticeTotal;
 		}
 	}
 	/*********************************************

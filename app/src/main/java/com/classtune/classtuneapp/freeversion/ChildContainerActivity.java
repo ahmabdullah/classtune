@@ -90,8 +90,6 @@ public class ChildContainerActivity extends SocialBaseActivity implements
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
-		
-
 		return super.onOptionsItemSelected(item);
 		
 	}
@@ -99,8 +97,6 @@ public class ChildContainerActivity extends SocialBaseActivity implements
 	@SuppressLint("NewApi")
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-
-		
 
 		return super.onPrepareOptionsMenu(menu);
 
@@ -148,8 +144,6 @@ public class ChildContainerActivity extends SocialBaseActivity implements
 	}
 
 
-
-
 	@Override
 	public void onPaswordChanged() {
 		// TODO Auto-generated method stub
@@ -157,15 +151,11 @@ public class ChildContainerActivity extends SocialBaseActivity implements
 	}
 
 
-
-
 	@Override
 	public boolean onClose() {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-
 
 
 	@Override

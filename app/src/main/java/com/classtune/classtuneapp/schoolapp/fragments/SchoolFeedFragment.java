@@ -85,6 +85,8 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
             R.id.d6};
     private int[] mArray = {R.id.m1, R.id.m2, R.id.m3, R.id.m4, R.id.m5,
             R.id.m6};
+    private int[] subjectIconArray = {R.id.si1, R.id.si2, R.id.si3, R.id.si4, R.id.si5};
+    private int[] subjectBgArray = {R.id.sb1, R.id.sb2, R.id.sb3, R.id.sb4, R.id.sb5};
     private boolean isPaid;
     private boolean isTeacher;
 
@@ -230,6 +232,7 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
             if (uiHelper.isDialogActive()) {
                 uiHelper.dismissLoadingDialog();
             }
+            Log.d("@@@****@@@",responseString);
             /*
 			 * if (fitnessAdapter.getPageNumber() == 1) {
 			 * fitnessAdapter.getList().clear(); // setupPoppyView(); }
@@ -307,7 +310,6 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
 
             // Call onRefreshComplete when the list has been refreshed.
             listGoodread.onRefreshComplete();
-
             super.onPostExecute(result);
         }
     }
@@ -519,6 +521,12 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                                 .findViewById(R.id.sum_lay_notice);
                         holder.noticeIconLay = (RelativeLayout) convertView.findViewById(R.id.notice_icon_lay);
                         holder.noticeText = (TextView) convertView.findViewById(R.id.notice_text);
+
+                        holder.noticeFreeLay = (LinearLayout) convertView.findViewById(R.id.sum_lay_notice_free);
+                        holder.noticeCount = (TextView) convertView.findViewById(R.id.count_notice);
+                        holder.homeworkFreeLay = (LinearLayout) convertView.findViewById(R.id.sum_lay_homework_free);
+                        holder.homeworkCount = (TextView) convertView.findViewById(R.id.count_homework);
+
                         for (int m = 0; m < 6; m++) {
                             holder.linearLayoutArray[m] = (LinearLayout) convertView
                                     .findViewById(lArray[m]);
@@ -526,6 +534,10 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                                     .findViewById(dArray[m]);
                             holder.monthTextViewArray[m] = (TextView) convertView
                                     .findViewById(mArray[m]);
+
+                            if(m == 5) {continue;}
+                            holder.sImages[m] = (ImageView) convertView.findViewById(subjectIconArray[m]);
+                            holder.sRelatives[m] = (RelativeLayout) convertView.findViewById(subjectBgArray[m]);
                         }
                         break;
                     case TYPE_ITEM:
@@ -795,7 +807,7 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                                 holder.hwText2.setTextColor(getResources().getColor(R.color.black));
                                 holder.homeworkIcon.setAlpha(255);
                             }*/
-                            disableBlock(holder.homework, true, 2);//feed.getHomeWorkSubjects().size() != 0
+                            disableBlock(holder.homework, isPaid, 2);//feed.getHomeWorkSubjects().size() != 0
 
 
                             disableBlock(holder.attendance, isPaid, 7);
@@ -910,9 +922,42 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                                 holder.meetingStatusText.setTextColor(getResources().getColor(R.color.gray_4));
                                 holder.meetingLabel.setTextColor(getResources().getColor(R.color.gray_4));
                             }
+                        }
+                        if(!isPaid) {
+                            holder.homeworkFreeLay.setVisibility(View.VISIBLE);
+                            holder.noticeFreeLay.setVisibility(View.VISIBLE);
+                            int hsize = feed.getHomeworkTotal();
+                            int nsize = feed.getNoticeTotal();
+                            holder.homeworkCount.setText(hsize < 10 ? "0" + hsize : "" + hsize);
+                            holder.noticeCount.setText(nsize < 10 ? "0" + nsize : "" + nsize);
+                            holder.homeworkFreeLay.setOnClickListener(new OnClickListener() {
 
+                                @Override
+                                public void onClick(View v) {
+                                    ((HomePageFreeVersion) getActivity())
+                                            .loadPaidFragment(PaidVersionHomeFragment
+                                                    .newInstance(1));
+                                }
+                            });
+                            holder.noticeFreeLay.setOnClickListener(new OnClickListener() {
 
+                                @Override
+                                public void onClick(View v) {
+                                    ((HomePageFreeVersion) getActivity())
+                                            .loadPaidFragment(PaidVersionHomeFragment
+                                                    .newInstance(2));
+                                }
+                            });
 
+                            int limit = feed.getHomeWorkSubjects().size() > 5 ? 5 : feed.getHomeWorkSubjects().size();
+                            for(int k = 0; k < limit; k++) {
+                                holder.sImages[k].setImageResource(AppUtility.getImageResourceIdSummary(feed.getHomeWorkSubjects().get(k).getIcon(), holder.noticeCount.getContext()));
+                                holder.sRelatives[k].setBackgroundColor(getResources().getColor(AppUtility.getColorFromString(feed.getHomeWorkSubjects().get(k).getIcon())));
+                            }
+
+                        } else {
+                            holder.homeworkFreeLay.setVisibility(View.GONE);
+                            holder.noticeFreeLay.setVisibility(View.GONE);
                         }
 
                         disableBlock(holder.eventTomorrow,
@@ -926,7 +971,7 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                             holder.eventText.setTextColor(getResources().getColor(R.color.gray_4));
                         }
 
-                        disableBlock(holder.notice, true, isPaid ? isTeacher ? 6 : 4 : 3);
+                        disableBlock(holder.notice, isPaid, isPaid ? isTeacher ? 6 : 4 : 3);
                         /*if(feed.isHasNotice()) {
                             holder.noticeIconLay.setBackgroundColor(getResources().getColor(R.color.red));
                             holder.noticeText.setTextColor(getResources().getColor(R.color.black));
@@ -1172,7 +1217,6 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
 
             params.put(RequestKeyHelper.USER_ID, UserHelper.getUserFreeId());
             params.put(RequestKeyHelper.POST_ID, list.get(i).getId());
-
             AppRestClient.post(URLHelper.URL_FREE_VERSION_READLATER, params,
                     readLaterHandler);
         }
@@ -1213,7 +1257,7 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                         view.setTag("" + pos);
 
                     } else {
-                        view.setVisibility(View.VISIBLE);
+                        view.setVisibility(View.GONE);
                         view.setBackgroundColor(getResources().getColor(R.color.bg_disable));
 
                     }
@@ -1226,7 +1270,7 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                         view.setTag("" + pos);
 
                     } else {
-                        view.setVisibility(View.VISIBLE);
+                        view.setVisibility(View.GONE);
                         view.setBackgroundColor(getResources().getColor(R.color.bg_disable));
                         //view.findViewById(R.id.sum_iv_disable).setBackgroundColor(getActivity().getResources().getColor(R.color.red_disable));
                     }
@@ -1332,8 +1376,12 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
         LinearLayout sum_lay_rollcall, sum_lay_add_homework, sum_lay_add_quiz;
         LinearLayout etIconbg, erpIcon;
         TextView etText1, etText2, noticeText;
+        LinearLayout homeworkFreeLay, noticeFreeLay;
+        TextView homeworkCount, noticeCount;
         TextView[] dateTextViewArray = new TextView[6];
         TextView[] monthTextViewArray = new TextView[6];
+        ImageView[] sImages = new ImageView[5];
+        RelativeLayout[] sRelatives = new RelativeLayout[5];
         LinearLayout[] linearLayoutArray = new LinearLayout[6];
 
         ImageView eventIcon;

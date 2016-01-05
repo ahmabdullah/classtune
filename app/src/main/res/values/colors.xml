@@ -47,4 +47,30 @@
 	<color name="classtune_green_color_what_is">#094215</color>
 	<color name="classtune_green_feature_button_normal">#5bc972</color>
 	
+	
+	<color name="accounting">#D03513</color>
+	<color name="algebra">#FA760C</color>
+	<color name="economics">#318ED7</color>
+	<color name="environment">#FE3C3C</color>
+	<color name="geography">#1998D5</color>
+	<color name="health_education">#5F7DC6</color>
+	<color name="history">#823E9C</color>
+	<color name="islam_religion">#0F8737</color>
+	<color name="it">#4EAA32</color>
+	<color name="music">#3F2F8F</color>
+	<color name="physical">#B10645</color>
+	<color name="science">#7A2F20</color>
+	<color name="higher_mathematics">#D04B7E</color>
+	<color name="social_studies">#CD681A</color>
+	<color name="art">#5796C0</color>
+	<color name="bangla">#DD4240</color>
+	<color name="biology">#5C4A4F</color>
+	<color name="checmistry">#0BA2D0</color>
+	<color name="english">#F49F22</color>
+	<color name="geomatry">#7D3030</color>
+	<color name="math">#616D57</color>
+	<color name="physics">#4D5A74</color>
+	<color name="pre_writing">#7B9300</color>
+
+	
 </resources>

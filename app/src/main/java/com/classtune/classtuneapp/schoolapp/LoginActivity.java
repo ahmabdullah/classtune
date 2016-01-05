@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.classtune.classtuneapp.R;
 import com.classtune.classtuneapp.freeversion.CompleteProfileActivityContainer;
+import com.classtune.classtuneapp.freeversion.ForgetPasswordActivity;
 import com.classtune.classtuneapp.freeversion.HomePageFreeVersion;
 import com.classtune.classtuneapp.schoolapp.fragments.UserTypeSelectionDialog;
 import com.classtune.classtuneapp.schoolapp.fragments.UserTypeSelectionDialog.UserTypeListener;
@@ -81,7 +82,8 @@ public class LoginActivity extends SocialBaseActivity implements
                 validateFieldAndCallLogIn();
                 break;
             case R.id.tv_forget_password:
-
+                Intent intent = new Intent(LoginActivity.this, ForgetPasswordActivity.class);
+                startActivity(intent);
                 break;
             default:
                 break;

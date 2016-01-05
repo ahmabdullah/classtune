@@ -100,6 +100,8 @@ public class URLHelper {
 	
 	public final static String FREE_USER_CREATE = "freeuser/create";
 
+	public final static String URL_FORGET_PASSWORD = "user/forgotpassword";
+
 	public final static String URL_FREE_VERSION_HOME = "freeuser";
 
 	public final static String URL_FREE_VERSION_SINGLENEWS = "freeuser/getsinglenews";

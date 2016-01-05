@@ -158,7 +158,43 @@ public class AppUtility {
 			}
 		} else
 			return R.drawable.physics;
+	}
 
+	public static int getImageResourceIdSummary(String imageName, Context context) {
+
+		if (imageName != null) {
+			imageName = imageName.replace("-", "_");
+			if (imageName.split("\\.").length == 0)
+				return R.drawable.physics_white;
+			int resID = context.getResources().getIdentifier(
+					imageName.split("\\.")[0]+"_white", "drawable",
+					context.getPackageName());
+			if (resID == 0) {
+				return R.drawable.physics_white;
+			} else {
+				return resID;
+			}
+		} else {
+			return R.drawable.physics_white;
+		}
+	}
+
+	public static int getColorFromString(String name)
+	{
+		int resId = 0;
+		name = name.split("\\.")[0];
+		for(int i=0;i<R.color.class.getFields().length;i++) {
+			if(name.equalsIgnoreCase(R.color.class.getFields()[i].getName())) {
+				try {
+					resId = R.color.class.getFields()[i].getInt(null);
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				}
+				break;
+			}
+		}
+
+		return resId;
 	}
 
 	public static DisplayImageOptions getOptionForUserImage() {
@@ -168,7 +204,7 @@ public class AppUtility {
 				.showImageOnFail(R.drawable.user_icon).cacheInMemory(true)
 				.cacheOnDisc(true).resetViewBeforeLoading(true)
 				.bitmapConfig(Bitmap.Config.RGB_565)
-				// .displayer(new RoundedBitmapDisplayer(5))
+				// .displayer(new RoundedBitmapDisplayer(5)
 				.build();
 		return options;
 	}

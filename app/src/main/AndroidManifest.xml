@@ -306,6 +306,10 @@
             android:name="com.classtune.classtuneapp.schoolapp.classtune.InfoFeatureActivity"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name="com.classtune.classtuneapp.freeversion.ForgetPasswordActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
 
 
         <!--<provider android:authorities="com.facebook.app.NativeAppCallContentProvider850059515022967"

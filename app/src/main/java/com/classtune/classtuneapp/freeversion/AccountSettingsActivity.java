@@ -69,6 +69,7 @@ public class AccountSettingsActivity extends ChildContainerActivity implements O
 			uiHelper.dismissLoadingDialog();
 		}
 	}
+
 	@Override
 	public void onAuthenticationFailed(String msg) {
 		// TODO Auto-generated method stub
@@ -78,6 +79,7 @@ public class AccountSettingsActivity extends ChildContainerActivity implements O
 		}
 		uiHelper.showMessage(msg);
 	}
+
 	@Override
 	public void onPaswordChanged() {
 		if (uiHelper.isDialogActive()) {
@@ -207,9 +209,7 @@ public class AccountSettingsActivity extends ChildContainerActivity implements O
 			}
 
 		});
-
 	}
-
 
 	private void showSoftKeyboard(final InputMethodManager im,
 			final EditText et, ImageView editIcon) {
