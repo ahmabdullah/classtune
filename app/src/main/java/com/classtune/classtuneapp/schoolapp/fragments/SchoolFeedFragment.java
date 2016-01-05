@@ -30,6 +30,7 @@ import com.classtune.classtuneapp.freeversion.ChildContainerActivity;
 import com.classtune.classtuneapp.freeversion.HomePageFreeVersion;
 import com.classtune.classtuneapp.freeversion.PaidVersionHomeFragment;
 import com.classtune.classtuneapp.schoolapp.StudentInfoActivity;
+import com.classtune.classtuneapp.schoolapp.classtune.TeacherInfoActivity;
 import com.classtune.classtuneapp.schoolapp.model.FreeVersionPost;
 import com.classtune.classtuneapp.schoolapp.model.FreeVersionPost.DateFeed;
 import com.classtune.classtuneapp.schoolapp.model.UserAuthListener;
@@ -662,6 +663,11 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                         intent.putExtra("key_from_feed", 1);
                         startActivity(intent);
                     }
+                    else
+                    {
+                        Intent intent = new Intent(getActivity(), TeacherInfoActivity.class);
+                        startActivity(intent);
+                    }
                 }
             });
 
@@ -672,6 +678,11 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
                     {
                         Intent intent = new Intent(getActivity(), StudentInfoActivity.class);
                         intent.putExtra("key_from_feed", 1);
+                        startActivity(intent);
+                    }
+                    else
+                    {
+                        Intent intent = new Intent(getActivity(), TeacherInfoActivity.class);
                         startActivity(intent);
                     }
                 }

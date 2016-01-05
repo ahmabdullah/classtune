@@ -252,6 +252,9 @@ public class AppConstant {
 	public static final String CLASSTUNE_MESSAGE_EMPLOYEE_JOINING_DATE = "Select Joining Date.";
 	public static final String CLASSTUNE_MESSAGE_EMPLOYEE_EXISTS = "This Number already exists.";
 
+	public static final long BANNER_POPUP_SHOW_TIME = 12000;
+	public static final long BANNER_POPUP_DISMISS_TIME = 5000;
+
 
 
 
