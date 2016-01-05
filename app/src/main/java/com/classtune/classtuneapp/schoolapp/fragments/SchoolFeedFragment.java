@@ -785,7 +785,12 @@ public class SchoolFeedFragment extends Fragment implements UserAuthListener {
 
 
                         } else {
-                            holder.toggle.setVisibility(View.VISIBLE);
+                            if(isPaid) {
+                                holder.toggle.setVisibility(View.VISIBLE);
+                            } else {
+                                holder.toggle.setVisibility(View.GONE);
+                            }
+
                             holder.attendance.setVisibility(View.VISIBLE);
                             holder.attendanceTextView.setText(feed.getAttendence());
                             if(!isPaid) {

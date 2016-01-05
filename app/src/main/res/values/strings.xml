@@ -40,12 +40,10 @@
     <string-array name="free_settings_images">
         <item>about_us</item>
         <item>terms_and_policy</item>
-        <item>faq_icon</item>
-    </string-array>
+     </string-array>
     <string-array name="free_settings_text">
         <item>About Us</item>
         <item>Terms \u0026 Policy</item>
-        <item>faq_icon</item>
     </string-array>
 
     <string-array name="free_settings_images_log_in">
