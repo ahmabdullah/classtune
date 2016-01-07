@@ -990,8 +990,7 @@
                 android:layout_marginLeft="20dp"
                 android:paddingBottom="30dp"
                 android:paddingTop="30dp"
-                android:text="Homeworks"
-                android:textAllCaps="true"
+                android:text="Homework"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
@@ -1083,8 +1082,7 @@
                 android:paddingBottom="30dp"
                 android:layout_marginLeft="20dp"
                 android:paddingTop="30dp"
-                android:text="Notice Board"
-                android:textAllCaps="true"
+                android:text="Notice"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 

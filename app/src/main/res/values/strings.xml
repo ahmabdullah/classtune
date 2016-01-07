@@ -94,14 +94,14 @@
 
         <item>School Feed</item>
         <item>Homework</item>
-        <item>Assessment</item>
+        <item>Quiz</item>
         <item>Notice</item>
         <item>Syllabus</item>
         <item>Event</item>
         <item>Attendance</item>
         <item>Routine</item>
         <item>Exam Routine</item>
-        <item>Reportcard</item>
+        <item>Report Card</item>
         <item>Academic Calendar</item>
         <item>Transport</item>
         <item>Lesson Plan</item>
@@ -151,7 +151,7 @@
         <item>School Feed</item>
         <item>Homework</item>
         <item>Notice</item>
-        <item>Assessment</item>
+        <item>Quiz</item>
 
         <item>Syllabus</item>
         <item>Event</item>
@@ -189,7 +189,7 @@
     <string-array name="diary_text_parents">
         <item>School Feed</item>
         <item>Homework</item>
-        <item>Assessment</item>
+        <item>Quiz</item>
         <item>Notice</item>
         <item>Syllabus</item>
         <item>Event</item>
