@@ -1,6 +1,7 @@
 package com.classtune.classtuneapp.freeversion;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -43,6 +44,7 @@ import com.classtune.classtuneapp.schoolapp.utils.SchoolApp;
 import com.classtune.classtuneapp.schoolapp.utils.SharedPreferencesHelper;
 import com.classtune.classtuneapp.schoolapp.utils.URLHelper;
 import com.classtune.classtuneapp.schoolapp.utils.UserHelper;
+import com.classtune.classtuneapp.schoolapp.viewhelpers.BannerDialog;
 import com.classtune.classtuneapp.schoolapp.viewhelpers.UIHelper;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -605,6 +607,37 @@ public class HomePageFreeVersion extends HomeContainerActivity {
         uiHelper = new UIHelper(this);
 
         ReminderHelper.getInstance().constructReminderFromSharedPreference();
+
+
+        if(userHelper.getUser().getPaidInfo().getSchoolType() != 1)
+        {
+            showBannerPopup();
+        }
+    }
+
+    private void showBannerPopup()
+    {
+
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+
+                if(!((Activity) HomePageFreeVersion.this).isFinishing())
+                {
+                    BannerDialog bd = new BannerDialog(HomePageFreeVersion.this);
+                    bd.show();
+
+                    //handler.postDelayed(this, 10000);
+                }
+
+
+            }
+        };
+        Handler handler = new Handler();
+        handler.postDelayed(runnable, AppConstant.BANNER_POPUP_SHOW_TIME);
+
+
+
     }
 
 
